@@ -1,0 +1,4 @@
+docs/vendor/
+packages/rgb-client/openapi.yaml
+packages/rgb-client/src/schema.d.ts
+pnpm-lock.yaml

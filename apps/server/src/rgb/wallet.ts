@@ -1,5 +1,5 @@
 import type { Config } from '../config.js';
-import { isRlnError } from './errors.js';
+import { isRlnError, type RlnErrorName } from './errors.js';
 import { rln, type RlnNode } from './nodes.js';
 
 export interface ReadyResult {
@@ -62,4 +62,54 @@ export async function ensureReady(node: RlnNode, cfg: Config): Promise<ReadyResu
 
 export async function nodeInfo(node: RlnNode) {
   return rln(node, '/nodeinfo', node.client.GET('/nodeinfo'));
+}
+
+export const FEE_RATE = 5; // sat/vB, regtest
+
+export async function btcBalance(node: RlnNode) {
+  return rln(node, '/btcbalance', node.client.POST('/btcbalance', { body: { skip_sync: false } }));
+}
+
+export async function newAddress(node: RlnNode): Promise<string> {
+  return (await rln(node, '/address', node.client.POST('/address'))).address;
+}
+
+// Create UTXOs that RGB allocations can be bound to. Returns false when the node already
+// has enough free ones (AllocationsAlreadyAvailable).
+export async function createUtxos(node: RlnNode, num: number): Promise<boolean> {
+  try {
+    await rln(
+      node,
+      '/createutxos',
+      node.client.POST('/createutxos', {
+        body: { up_to: true, num, size: null, fee_rate: FEE_RATE, skip_sync: false },
+      }),
+    );
+    return true;
+  } catch (e) {
+    if (isRlnError(e, 'AllocationsAlreadyAvailable')) return false;
+    throw e;
+  }
+}
+
+export async function colorableUtxos(node: RlnNode): Promise<number> {
+  const res = await rln(
+    node,
+    '/listunspents',
+    node.client.POST('/listunspents', { body: { settled_only: true, skip_sync: false } }),
+  );
+  return res.unspents.filter((u) => u.utxo.colorable).length;
+}
+
+// The node's own indexer (electrs) can lag a moment behind esplora after a block is mined:
+// retry an operation while it fails with one of the given transient errors.
+export async function retryOn<T>(names: RlnErrorName[], fn: () => Promise<T>, tries = 10): Promise<T> {
+  for (let i = 1; ; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      if (i >= tries || !names.some((n) => isRlnError(e, n))) throw e;
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+  }
 }

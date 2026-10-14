@@ -1,0 +1,6 @@
+{
+  "permissions": {
+    "allow": ["Bash(pnpm:*)", "Bash(git status)", "Bash(git diff:*)", "Bash(git add:*)", "Bash(git commit:*)", "Bash(docker compose:*)"],
+    "deny": ["Read(./.env)", "Bash(git push --force:*)", "Bash(rm -rf /:*)"]
+  }
+}

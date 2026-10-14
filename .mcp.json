@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "qvac-docs": {
+      "type": "http",
+      "url": "https://mcp.inkeep.com/tetherio/mcp"
+    }
+  }
+}

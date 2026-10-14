@@ -1,23 +1,45 @@
 # STATUS
 
-## Phase 1 — RGB core on regtest: 🚧 in progress
+## Phase 1 — RGB core on regtest: ✅ done (2026-10-14)
 
-Acceptance: `pnpm rgb:e2e` sends 5.00 USD bob→alice, prints balances before/after and the witness txid, confirmed on esplora REST.
+Acceptance verified from a cold `pnpm infra:reset`: `pnpm rgb:seed` → `pnpm rgb:seed` (rerun) → `pnpm rgb:e2e`. Bob → alice 5.00 USD: bob 500.00 → 495.00, alice 9,000.00 → 9,005.00, witness tx `b731fa23…246a` confirmed at height 108 on esplora REST, about 6 s end to end.
 
-### Sub-steps
-- ✅ (a) init + unlock: `pnpm rgb:seed` inits and unlocks alice/bob/charlie (`/init`, `/unlock` with BlockSync on `bitcoind:18443`, indexer `electrs:50001`). Rerun-safe; a restarted node is re-unlocked.
-- ✅ (b) fund: `/address` → `infra/scripts/fund.sh` (miner wallet `sendtoaddress`, 1 BTC each) → mine 1. Skipped when a node already has ≥ 0.5 BTC.
-- ✅ (c) RGB UTXOs: `/createutxos` `up_to: true, num: 10` → mine 1 → 10 settled colorable UTXOs per node (`/listunspents`). Skipped on `AllocationsAlreadyAvailable`.
-- ✅ (d) NIA asset: `/issueassetnia` on alice, ticker `DUSD` "Demo Digital Dollar", precision 2, supply 1,000,000 units = 10,000.00 USD. No mining needed. Found again by ticker via `/listassets`; its id is cached in `infra/data/seed-state.json` (gitignored, changes on every reset).
-- ✅ (e) distribute: bob and charlie `/rgbinvoice` (blinded, 50,000 units = 500.00) → alice `/sendrgb` (one witness tx, `donation: true` as in upstream tests) → mine 1 → `/refreshtransfers` until both receivers are `Settled`. Verified: tx `139cf072…fa6f` confirmed in esplora at height 107; balances alice 9,000.00, bob 500.00, charlie 500.00. Recovers an in-flight transfer from a crashed run instead of sending twice.
-- ⏳ (f) on-chain SettlementRail + `pnpm rgb:e2e`
+### What works
+- (a) init + unlock: `/init` (password from `.env`; mnemonic from `.env` or generated and written back) then `/unlock` (BlockSync on `bitcoind:18443`, indexer `electrs:50001`). `ensureReady()` is rerun-safe and re-unlocks a restarted node (tested with `docker compose restart`).
+- (b) fund: `/address` → `infra/scripts/fund.sh` (miner wallet, 1 BTC each) → mine 1. Skipped when a node already has ≥ 0.5 BTC.
+- (c) RGB UTXOs: `/createutxos` `up_to: true, num: 10` → mine 1 → 10 colorable UTXOs. On a rerun it tops back up to 10 (invoices and receipts use UTXOs), otherwise it is skipped on `AllocationsAlreadyAvailable`.
+- (d) NIA asset: `/issueassetnia` on alice, `DUSD` "Demo Digital Dollar", precision 2, 1,000,000 units = 10,000.00 USD. No mining. Found again by ticker via `/listassets`; the id is cached in `infra/data/seed-state.json`.
+- (e) distribute: bob and charlie `/rgbinvoice` (blinded UTXO, 500.00 each) → alice `/sendrgb` (one witness tx, `donation: true` as in upstream tests) → mine 1 → `/refreshtransfers` until settled. Refreshes first, so a transfer in flight from a crashed run is not sent twice.
+- (f) `SettlementRail` (`apps/server/src/rgb/rail.ts`) + on-chain implementation (`onchain-rail.ts`):
+  - `requestPayment`: payee `/rgbinvoice`.
+  - `pay`: payer `/sendrgb`, then the `afterBroadcast` hook (mine 1 when `RGB_AUTO_MINE=true`).
+  - `status`: `/refreshtransfers` payee then payer, then `/listtransfers` on both. Both `Settled` → confirmed, either `Failed` → failed, else pending.
+- Unit tests: units/bigint conversion, settlement status mapping, transfer lookup, config (13 tests).
+
+### How to run
+```sh
+pnpm infra:up             # or pnpm infra:reset for a cold chain
+pnpm rgb:seed             # idempotent; needs RLN_*_PASSWORD in .env
+pnpm rgb:e2e              # bob → alice 5.00, prints balances, txid, esplora status
+pnpm stack:logs rln-bob   # node logs when something fails
+```
 
 ### Learned the hard way (RLN behaviour)
-- A node that never held the asset answers `UnknownContractId` to `/assetbalance`, `/rgbinvoice` and `/refreshtransfers` with that `asset_id`. So: balance = 0, the first invoice uses `asset_id: null`, and refresh always runs with `asset_id: null` (as upstream tests do).
-- A batch send shows up on the sender as one `Send` transfer per recipient with the same txid.
+- A node that never held the asset answers `UnknownContractId` to `/assetbalance`, `/rgbinvoice` and `/refreshtransfers` with that `asset_id`. So: balance = 0, the first invoice falls back to `asset_id: null`, and refresh always runs with `asset_id: null` (as upstream tests do).
+- A batch send shows up on the sender as one `Send` transfer per recipient, all with the same txid.
+- Passwords need ≥ 8 chars (upstream `PASSWORD_MIN_LENGTH`).
+- `openapi.yaml` declares no error responses; the `{error, code, name}` body comes from upstream `src/error.rs`.
 
 ### Secrets
-`.env` (gitignored, mode 600): `RLN_{ALICE,BOB,CHARLIE}_PASSWORD` (random, min 8 chars, required). `RLN_*_MNEMONIC` are written back by `rgb:seed` when a node is initialized without one. Other keys and defaults: `.env.example`.
+`.env` (gitignored, mode 600): `RLN_{ALICE,BOB,CHARLIE}_PASSWORD` (random, required). `RLN_*_MNEMONIC` are written back by `rgb:seed` when a node is initialized without one; the same mnemonics are reused after `infra:reset`. Other keys and defaults: `.env.example`.
+
+### Known issues
+- Still no esplora web UI (Phase 0 gap): the proof is the REST `/tx/<txid>/status`. A clickable explorer for demo step 7 is needed by Phase 4.
+- Each `rgb:e2e` run moves 5.00 from bob to alice; bob runs out after about 100 runs → `pnpm infra:reset && pnpm rgb:seed`.
+- Needs `infra:reset`: changed password or mnemonic (`WrongPassword`), a demo asset issued with the wrong precision (the seed refuses), or a transfer stuck `Failed`/pending past the 90 s timeout.
+
+### Next step
+Phase 2 — domain logic (FX, split, balances, simplification) with vitest, ledger coverage ≥ 90%.
 
 ## Phase 0 — Environment & skeleton: ✅ done (2026-10-14), one known gap
 

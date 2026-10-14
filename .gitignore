@@ -4,3 +4,7 @@ node_modules/
 infra/data/
 dist/
 .DS_Store
+infra/vendor/
+coverage/
+.qvac/
+*.tsbuildinfo

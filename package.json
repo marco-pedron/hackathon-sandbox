@@ -1,0 +1,33 @@
+{
+  "name": "settleup-trip",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": ">=22.17"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "typecheck": "pnpm -r typecheck",
+    "rgb:gen": "pnpm --filter @settleup/rgb-client gen",
+    "ai:download": "pnpm --filter @settleup/server ai:download",
+    "ai:smoke": "pnpm --filter @settleup/server ai:smoke",
+    "infra:up": "./infra/scripts/up.sh",
+    "infra:down": "./infra/scripts/down.sh",
+    "infra:reset": "./infra/scripts/reset.sh",
+    "infra:check": "./infra/scripts/check.sh"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^5.0.4",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.71.2",
+    "vitest": "^5.0.4"
+  }
+}

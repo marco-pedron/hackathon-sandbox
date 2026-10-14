@@ -1,0 +1,23 @@
+{
+  "name": "@settleup/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "ai:download": "tsx scripts/ai-download.ts",
+    "ai:smoke": "tsx scripts/ai-smoke.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@qvac/sdk": "~0.21.0",
+    "@settleup/rgb-client": "workspace:*",
+    "@settleup/shared": "workspace:*",
+    "fastify": "^5.12.7",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
+  }
+}

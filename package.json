@@ -14,10 +14,14 @@
     "rgb:gen": "pnpm --filter @settleup/rgb-client gen",
     "ai:download": "pnpm --filter @settleup/server ai:download",
     "ai:smoke": "pnpm --filter @settleup/server ai:smoke",
+    "rgb:seed": "pnpm --filter @settleup/server rgb:seed",
+    "rgb:e2e": "pnpm --filter @settleup/server rgb:e2e",
     "infra:up": "./infra/scripts/up.sh",
     "infra:down": "./infra/scripts/down.sh",
     "infra:reset": "./infra/scripts/reset.sh",
-    "infra:check": "./infra/scripts/check.sh"
+    "infra:check": "./infra/scripts/check.sh",
+    "stack:ps": "docker compose -f infra/docker-compose.yml ps",
+    "stack:logs": "docker compose -f infra/docker-compose.yml logs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -12,4 +12,12 @@ describe('loadConfig', () => {
   it('rejects a malformed URL', () => {
     expect(() => loadConfig({ RLN_ALICE_URL: 'not a url' })).toThrow();
   });
+
+  it('treats empty secrets as unset and parses RGB_AUTO_MINE', () => {
+    const c = loadConfig({ RLN_BOB_PASSWORD: '', RLN_BOB_MNEMONIC: 'a b c', RGB_AUTO_MINE: 'false' });
+    expect(c.RLN_BOB_PASSWORD).toBeUndefined();
+    expect(c.RLN_BOB_MNEMONIC).toBe('a b c');
+    expect(c.RGB_AUTO_MINE).toBe(false);
+    expect(c.RGB_PROXY_ENDPOINT).toBe('rpc://proxy:3000/json-rpc');
+  });
 });

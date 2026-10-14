@@ -13,7 +13,8 @@ export type RlnErrorName =
   | 'InsufficientAssets'
   | 'InsufficientFunds'
   | 'RecipientIDAlreadyUsed'
-  | 'InvalidRecipientID';
+  | 'InvalidRecipientID'
+  | 'UnknownContractId';
 
 export class RlnError extends Error {
   constructor(

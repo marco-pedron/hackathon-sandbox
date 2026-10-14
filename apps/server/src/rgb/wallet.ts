@@ -121,9 +121,16 @@ export interface AssetBalance {
   spendable: bigint;
 }
 
+// A node learns about a contract only when it first receives the asset; until then
+// /assetbalance answers UnknownContractId, which here means a zero balance.
 export async function getAssetBalance(node: RlnNode, assetId: string): Promise<AssetBalance> {
-  const b = await rln(node, '/assetbalance', node.client.POST('/assetbalance', { body: { asset_id: assetId } }));
-  return { settled: fromApiAmount(b.settled), future: fromApiAmount(b.future), spendable: fromApiAmount(b.spendable) };
+  try {
+    const b = await rln(node, '/assetbalance', node.client.POST('/assetbalance', { body: { asset_id: assetId } }));
+    return { settled: fromApiAmount(b.settled), future: fromApiAmount(b.future), spendable: fromApiAmount(b.spendable) };
+  } catch (e) {
+    if (isRlnError(e, 'UnknownContractId')) return { settled: 0n, future: 0n, spendable: 0n };
+    throw e;
+  }
 }
 
 // The asset id changes on every reset, so the demo asset is looked up by ticker.

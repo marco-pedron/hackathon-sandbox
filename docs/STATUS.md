@@ -9,7 +9,12 @@ Acceptance: `pnpm rgb:e2e` sends 5.00 USD bob→alice, prints balances before/af
 - ✅ (b) fund: `/address` → `infra/scripts/fund.sh` (miner wallet `sendtoaddress`, 1 BTC each) → mine 1. Skipped when a node already has ≥ 0.5 BTC.
 - ✅ (c) RGB UTXOs: `/createutxos` `up_to: true, num: 10` → mine 1 → 10 settled colorable UTXOs per node (`/listunspents`). Skipped on `AllocationsAlreadyAvailable`.
 - ✅ (d) NIA asset: `/issueassetnia` on alice, ticker `DUSD` "Demo Digital Dollar", precision 2, supply 1,000,000 units = 10,000.00 USD. No mining needed. Found again by ticker via `/listassets`; its id is cached in `infra/data/seed-state.json` (gitignored, changes on every reset).
-- ⏳ (e) distribute to bob/charlie · (f) on-chain SettlementRail + `pnpm rgb:e2e`
+- ✅ (e) distribute: bob and charlie `/rgbinvoice` (blinded, 50,000 units = 500.00) → alice `/sendrgb` (one witness tx, `donation: true` as in upstream tests) → mine 1 → `/refreshtransfers` until both receivers are `Settled`. Verified: tx `139cf072…fa6f` confirmed in esplora at height 107; balances alice 9,000.00, bob 500.00, charlie 500.00. Recovers an in-flight transfer from a crashed run instead of sending twice.
+- ⏳ (f) on-chain SettlementRail + `pnpm rgb:e2e`
+
+### Learned the hard way (RLN behaviour)
+- A node that never held the asset answers `UnknownContractId` to `/assetbalance`, `/rgbinvoice` and `/refreshtransfers` with that `asset_id`. So: balance = 0, the first invoice uses `asset_id: null`, and refresh always runs with `asset_id: null` (as upstream tests do).
+- A batch send shows up on the sender as one `Send` transfer per recipient with the same txid.
 
 ### Secrets
 `.env` (gitignored, mode 600): `RLN_{ALICE,BOB,CHARLIE}_PASSWORD` (random, min 8 chars, required). `RLN_*_MNEMONIC` are written back by `rgb:seed` when a node is initialized without one. Other keys and defaults: `.env.example`.

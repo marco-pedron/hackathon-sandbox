@@ -8,7 +8,8 @@ Acceptance: `pnpm rgb:e2e` sends 5.00 USD bob→alice, prints balances before/af
 - ✅ (a) init + unlock: `pnpm rgb:seed` inits and unlocks alice/bob/charlie (`/init`, `/unlock` with BlockSync on `bitcoind:18443`, indexer `electrs:50001`). Rerun-safe; a restarted node is re-unlocked.
 - ✅ (b) fund: `/address` → `infra/scripts/fund.sh` (miner wallet `sendtoaddress`, 1 BTC each) → mine 1. Skipped when a node already has ≥ 0.5 BTC.
 - ✅ (c) RGB UTXOs: `/createutxos` `up_to: true, num: 10` → mine 1 → 10 settled colorable UTXOs per node (`/listunspents`). Skipped on `AllocationsAlreadyAvailable`.
-- ⏳ (d) issue NIA demo asset · (e) distribute to bob/charlie · (f) on-chain SettlementRail + `pnpm rgb:e2e`
+- ✅ (d) NIA asset: `/issueassetnia` on alice, ticker `DUSD` "Demo Digital Dollar", precision 2, supply 1,000,000 units = 10,000.00 USD. No mining needed. Found again by ticker via `/listassets`; its id is cached in `infra/data/seed-state.json` (gitignored, changes on every reset).
+- ⏳ (e) distribute to bob/charlie · (f) on-chain SettlementRail + `pnpm rgb:e2e`
 
 ### Secrets
 `.env` (gitignored, mode 600): `RLN_{ALICE,BOB,CHARLIE}_PASSWORD` (random, min 8 chars, required). `RLN_*_MNEMONIC` are written back by `rgb:seed` when a node is initialized without one. Other keys and defaults: `.env.example`.

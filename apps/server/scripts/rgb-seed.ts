@@ -9,11 +9,15 @@ import {
   colorableUtxos,
   createUtxos,
   ensureReady,
+  findNiaByTicker,
+  getAssetBalance,
+  issueNia,
   newAddress,
   nodeInfo,
   retryOn,
 } from '../src/rgb/wallet.js';
-import { loadDotEnv, setEnvIfEmpty } from './env.js';
+import { ASSET_PRECISION, formatUsd } from '../src/rgb/units.js';
+import { loadDotEnv, setEnvIfEmpty, writeSeedState } from './env.js';
 
 loadDotEnv();
 const cfg = loadConfig();
@@ -23,6 +27,7 @@ const chain = regtest(cfg.ESPLORA_URL);
 const FUND_BTC = 1;
 const MIN_SATS = 50_000_000; // skip funding above 0.5 BTC (vanilla + colored)
 const UTXOS = 10;
+const SUPPLY = 1_000_000n; // 10,000.00 USD at precision 2
 const btc = (sats: number) => (sats / 1e8).toFixed(8);
 
 async function stepInitUnlock() {
@@ -79,10 +84,30 @@ async function stepCreateUtxos() {
   }
 }
 
+async function stepIssue(): Promise<string> {
+  console.log('[d] issue NIA demo asset on alice');
+  const { DEMO_ASSET_TICKER: ticker, DEMO_ASSET_NAME: name } = cfg;
+  let asset = await findNiaByTicker(nodes.alice, ticker);
+  if (asset) {
+    if (asset.precision !== ASSET_PRECISION) {
+      throw new Error(`${ticker} exists with precision ${asset.precision}, expected ${ASSET_PRECISION}: run pnpm infra:reset`);
+    }
+    console.log(`  ${ticker} already issued: ${asset.asset_id}, skip`);
+  } else {
+    asset = await issueNia(nodes.alice, ticker, name, SUPPLY, ASSET_PRECISION);
+    console.log(`  issued ${ticker} "${name}" ${asset.asset_id}, supply ${formatUsd(SUPPLY)} USD`);
+  }
+  writeSeedState({ assetId: asset.asset_id, ticker });
+  const b = await getAssetBalance(nodes.alice, asset.asset_id);
+  console.log(`  alice: settled ${formatUsd(b.settled)}, spendable ${formatUsd(b.spendable)} ${ticker}`);
+  return asset.asset_id;
+}
+
 try {
   await stepInitUnlock();
   await stepFund();
   await stepCreateUtxos();
+  await stepIssue();
   console.log('seed done');
 } catch (err) {
   console.error('✖ rgb:seed failed:', err instanceof Error ? err.message : err);

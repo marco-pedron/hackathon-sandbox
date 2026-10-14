@@ -1,0 +1,13 @@
+{
+  "base": "USD",
+  "asOf": "2026-10-16",
+  "source": "Static demo snapshot, manually entered (not live market data)",
+  "rates": {
+    "USD": "1",
+    "EUR": "0.86",
+    "GBP": "0.75",
+    "CHF": "0.80",
+    "VND": "26350",
+    "JPY": "150.5"
+  }
+}

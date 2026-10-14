@@ -4,9 +4,9 @@ import { z } from 'zod';
 // can run on different machines. Defaults match infra/docker-compose.yml on localhost.
 const EnvSchema = z.object({
   SERVER_PORT: z.coerce.number().int().positive().default(8080),
-  RLN_GIULIA_URL: z.url().default('http://localhost:3001'),
-  RLN_BEN_URL: z.url().default('http://localhost:3002'),
-  RLN_SAM_URL: z.url().default('http://localhost:3003'),
+  RLN_ALICE_URL: z.url().default('http://localhost:3001'),
+  RLN_BOB_URL: z.url().default('http://localhost:3002'),
+  RLN_CHARLIE_URL: z.url().default('http://localhost:3003'),
   ESPLORA_URL: z.url().default('http://localhost:3010'),
 });
 

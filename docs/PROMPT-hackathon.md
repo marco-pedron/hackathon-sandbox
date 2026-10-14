@@ -26,19 +26,19 @@ You are the lead engineer of a 3-person team at a 27-hour hackathon (build: Sat 
 
 ## 1. The product (what the demo must show)
 
-**User:** an Italian traveler on an organized group trip (WeRoad-style) with strangers from other countries — e.g. Giulia (IT, EUR), Ben (DE, EUR), Sam (US, USD) in Vietnam — paying in VND, sharing dinners and taxis. People pay in turns; at the end of the trip the group dissolves and small debts are never settled.
+**User:** an Italian traveler on an organized group trip (WeRoad-style) with strangers from other countries — e.g. Alice (IT, EUR), Bob (DE, EUR), Charlie (US, USD) in Vietnam — paying in VND, sharing dinners and taxis. People pay in turns; at the end of the trip the group dissolves and small debts are never settled.
 
 **Promise:** snap the receipt → on-device AI reads it and proposes who owes what → the group approves → balances are netted in one unit (digital dollars on RGB) → whoever owes settles **right now**, with a real RGB payment, no banks, no IBAN, no country-specific app.
 
 **The single happy path (the demo, ~90 seconds):**
 
-1. Pre-loaded trip "Vietnam 2026" with 3 members (Giulia, Ben, Sam), each with their own RGB node and a balance of the demo NIA asset.
-2. Giulia uploads a photo of a restaurant receipt in VND.
+1. Pre-loaded trip "Vietnam 2026" with 3 members (Alice, Bob, Charlie), each with their own RGB node and a balance of the demo NIA asset.
+2. Alice uploads a photo of a restaurant receipt in VND.
 3. The local model extracts: merchant, date, currency, line items, total. UI shows the extraction with a confidence hint and lets the user edit any field.
-4. Giulia types in natural language: *"Ben and I shared the pho, Sam only had beers, split the water three ways"*. The local model maps this to an item → participants assignment. UI shows the proposed split per person.
-5. Giulia approves. The expense is recorded with the **FX rate locked at that moment** (VND→USD from the bundled rate table, shown with its date and source).
+4. Alice types in natural language: *"Bob and I shared the pho, Charlie only had beers, split the water three ways"*. The local model maps this to an item → participants assignment. UI shows the proposed split per person.
+5. Alice approves. The expense is recorded with the **FX rate locked at that moment** (VND→USD from the bundled rate table, shown with its date and source).
 6. The balances screen shows net positions in USD and the **simplified** settlement plan (minimum number of transfers).
-7. Ben clicks "Settle now" → real RGB transfer Ben→Giulia → status goes pending → confirmed → balances update. A link opens the transfer in the regtest explorer.
+7. Bob clicks "Settle now" → real RGB transfer Bob→Alice → status goes pending → confirmed → balances update. A link opens the transfer in the regtest explorer.
 8. A "Proof" panel shows: the RGB transfer status from the node, the witness txid, and the explorer link.
 
 Everything else is out of scope.
@@ -55,15 +55,15 @@ Everything else is out of scope.
                                         └── wdk/       (Phase 6, optional) @tetherto/wdk + @utexo/*
                                                 │
                     docker-compose (regtest): bitcoind, electrs, esplora, rgb-proxy-server
-                    + 3 rgb-lightning-node instances: giulia (3001), ben (3002), sam (3003)
+                    + 3 rgb-lightning-node instances: alice (3001), bob (3002), charlie (3003)
 ```
 
 Decisions (do not revisit unless blocked):
 
 - **Monorepo**, pnpm workspaces: `apps/web`, `apps/server`, `packages/shared` (zod schemas + types shared by web and server), `infra/` (docker-compose, scripts).
-- **One backend process orchestrates all three nodes.** Each participant maps to one RLN base URL. The UI has a **participant switcher** ("acting as: Giulia / Ben / Sam") — this simulates three phones on one laptop. State this honestly in the README: in production each user runs their own node/wallet.
+- **One backend process orchestrates all three nodes.** Each participant maps to one RLN base URL. The UI has a **participant switcher** ("acting as: Alice / Bob / Charlie") — this simulates three phones on one laptop. State this honestly in the README: in production each user runs their own node/wallet.
 - **Shared ledger = SQLite on the backend** (`better-sqlite3`). In production it would be synced peer-to-peer between members' devices; do not build sync.
-- **Config by env vars** (`RLN_GIULIA_URL`, `ESPLORA_URL`, `QVAC_MODEL_*`, …) so the Docker stack can run on one machine and the backend + QVAC on another (QVAC benefits from Apple Metal on a MacBook; the regtest stack can run on a Linux box).
+- **Config by env vars** (`RLN_ALICE_URL`, `ESPLORA_URL`, `QVAC_MODEL_*`, …) so the Docker stack can run on one machine and the backend + QVAC on another (QVAC benefits from Apple Metal on a MacBook; the regtest stack can run on a Linux box).
 - **Settlement mode:** implement **on-chain RGB transfer first** (invoice → sendasset → mine block → refresh). It is the most robust path and fully satisfies "real RGB transactions". **RGB over Lightning** is Phase 5, only after the on-chain path is committed and demoable. Keep both behind one interface:
   ```ts
   interface SettlementRail {
@@ -132,9 +132,9 @@ Required UX:
 - ✅ Check: `./infra/scripts/up.sh` brings everything up from a cold start; each RLN `/nodeinfo` (or the equivalent endpoint from openapi.yaml) responds; esplora UI loads; `pnpm ai:smoke` passes **with Wi-Fi off**.
 
 ### Phase 1 — RGB core on regtest (on-site)
-- `infra/scripts/seed.ts`: init + unlock the 3 nodes, fund each with regtest BTC, mine, create UTXOs for RGB allocations, **issue the NIA demo asset** from Giulia's node, distribute an initial balance to Ben and Sam via real transfers, mine, refresh. Idempotent where possible; otherwise `reset.sh && seed`.
+- `infra/scripts/seed.ts`: init + unlock the 3 nodes, fund each with regtest BTC, mine, create UTXOs for RGB allocations, **issue the NIA demo asset** from Alice's node, distribute an initial balance to Bob and Charlie via real transfers, mine, refresh. Idempotent where possible; otherwise `reset.sh && seed`.
 - `rgb/` module: `getAssetBalance(p)`, and the on-chain `SettlementRail` (receiver invoice → payer send → mine → refresh both → status).
-- ✅ Check: `pnpm rgb:e2e` performs Ben→Giulia 5.00 USD, prints both balances before/after and the witness txid, and the txid is visible in esplora. **Commit.**
+- ✅ Check: `pnpm rgb:e2e` performs Bob→Alice 5.00 USD, prints both balances before/after and the witness txid, and the txid is visible in esplora. **Commit.**
 
 ### Phase 2 — Domain logic
 - Implement section 3 with tests. No UI yet.
@@ -151,7 +151,7 @@ Required UX:
 - ✅ Check: run the full demo of section 1 by hand from a fresh `reset.sh && seed`, with Wi-Fi off. Record a screen video. **Commit + tag `demo-v1`.** (Target: Saturday evening.)
 
 ### Phase 5 — RGB over Lightning (only if `demo-v1` is tagged)
-- Seed script opens RGB-enabled channels (e.g. Ben→Giulia, Sam→Giulia, or through one node acting as a hub/LSP) with the NIA asset, per the RLN openapi (`openchannel` with asset fields, `lninvoice`, `sendpayment` or equivalents — verify names).
+- Seed script opens RGB-enabled channels (e.g. Bob→Alice, Charlie→Alice, or through one node acting as a hub/LSP) with the NIA asset, per the RLN openapi (`openchannel` with asset fields, `lninvoice`, `sendpayment` or equivalents — verify names).
 - Second `SettlementRail` implementation; UI toggle "Instant (Lightning) / On-chain". Lightning is the default if channels are ready, on-chain is the fallback.
 - ✅ Check: the same settle flow works over LN with no block mining; the payment appears in the nodes' payment list. **Commit + tag `demo-v2`.**
 
@@ -170,7 +170,7 @@ Required UX:
 ## 7. Pitch support (generate at the end, `docs/pitch.md`)
 
 Write a 3-minute pitch outline addressed to a Tether / Utexo / KaleidoSwap jury:
-1. The problem with one specific person (Giulia in Vietnam with strangers from DE and US).
+1. The problem with one specific person (Alice in Vietnam with strangers from DE and US).
 2. Why existing apps fail: they compute, they don't settle.
 3. Why RGB specifically: a dollar that's native to Bitcoin, self-custodial, cross-border, with no separate gas token, private by design (client-side validation), instant over Lightning.
 4. Why local AI: receipts and spending habits never leave the phone.

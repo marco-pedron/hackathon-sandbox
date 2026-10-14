@@ -8,7 +8,9 @@
     "start": "tsx src/index.ts",
     "ai:download": "tsx scripts/ai-download.ts",
     "ai:smoke": "tsx scripts/ai-smoke.ts",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "rgb:seed": "tsx scripts/rgb-seed.ts",
+    "rgb:e2e": "tsx scripts/rgb-e2e.ts"
   },
   "dependencies": {
     "@qvac/sdk": "~0.21.0",

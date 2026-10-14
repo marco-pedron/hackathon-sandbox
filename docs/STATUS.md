@@ -1,5 +1,16 @@
 # STATUS
 
+## Phase 1 — RGB core on regtest: 🚧 in progress
+
+Acceptance: `pnpm rgb:e2e` sends 5.00 USD bob→alice, prints balances before/after and the witness txid, confirmed on esplora REST.
+
+### Sub-steps
+- ✅ (a) init + unlock: `pnpm rgb:seed` inits and unlocks alice/bob/charlie (`/init`, `/unlock` with BlockSync on `bitcoind:18443`, indexer `electrs:50001`). Rerun-safe; a restarted node is re-unlocked.
+- ⏳ (b) fund with regtest BTC · (c) create RGB UTXOs · (d) issue NIA demo asset · (e) distribute to bob/charlie · (f) on-chain SettlementRail + `pnpm rgb:e2e`
+
+### Secrets
+`.env` (gitignored, mode 600): `RLN_{ALICE,BOB,CHARLIE}_PASSWORD` (random, min 8 chars, required). `RLN_*_MNEMONIC` are written back by `rgb:seed` when a node is initialized without one. Other keys and defaults: `.env.example`.
+
 ## Phase 0 — Environment & skeleton: ✅ done (2026-10-14), one known gap
 
 ### What works

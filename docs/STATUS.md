@@ -15,6 +15,8 @@
 pnpm ai:download               # once, needs network
 pnpm infra:up                  # or ./infra/scripts/up.sh — cold or warm start
 pnpm infra:check               # Phase 0 acceptance probe
+pnpm stack:ps                  # docker compose ps for the stack
+pnpm stack:logs <service>      # e.g. pnpm stack:logs rln-bob --tail 100 -f
 pnpm ai:smoke                  # loads OCR + LLM from cache, prints "ready"
 ./infra/scripts/mine.sh <n>    # mine n blocks
 pnpm infra:down                # stop, keep data

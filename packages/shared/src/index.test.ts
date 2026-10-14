@@ -3,7 +3,7 @@ import { ParticipantIdSchema } from './index.js';
 
 describe('ParticipantIdSchema', () => {
   it('accepts known participants and rejects others', () => {
-    expect(ParticipantIdSchema.parse('ben')).toBe('ben');
+    expect(ParticipantIdSchema.parse('bob')).toBe('bob');
     expect(ParticipantIdSchema.safeParse('mallory').success).toBe(false);
   });
 });

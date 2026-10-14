@@ -4,7 +4,7 @@
 
 ### What works
 - Monorepo (pnpm workspaces, strict TS, vitest, eslint); typed RLN client generated from `openapi.yaml` in `packages/rgb-client`.
-- Regtest stack in `infra/docker-compose.yml`: bitcoind, electrs, esplora (REST on :3010), rgb-proxy-server 0.3.0 (:3000), 3 rgb-lightning-node instances — giulia :3001, ben :3002, sam :3003 (`--network regtest --disable-authentication`).
+- Regtest stack in `infra/docker-compose.yml`: bitcoind, electrs, esplora (REST on :3010), rgb-proxy-server 0.3.0 (:3000), 3 rgb-lightning-node instances — alice :3001, bob :3002, charlie :3003 (`--network regtest --disable-authentication`).
 - RLN image `settleup/rln:d4762ac` built locally from pinned upstream commit `d4762ac` (no public image exists).
 - QVAC `@qvac/sdk` 0.21.0. Cached models (~2.1 GB in `~/.qvac/models`): OCR_LATIN, QWEN3_1_7B_INST_Q4, QWEN3_600M_INST_Q4, SMOLVLM2_500M_MULTIMODAL_Q8_0 + its mmproj.
 - Acceptance check verified **with Wi-Fi off** (internet confirmed unreachable): `pnpm ai:smoke` → ready in ~6.8 s (OCR 2.4 s, Qwen3-1.7B 4.0 s, completion 0.25 s); stack restart + `check.sh` → all checks passed.

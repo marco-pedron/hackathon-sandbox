@@ -1,5 +1,5 @@
 # Regtest stack, based on RGB-Tools/rgb-lightning-node@d4762ac compose.yaml.
-# Changes vs upstream: esplora on host port 3010 (3002 is Ben's node), named volumes,
+# Changes vs upstream: esplora on host port 3010 (3002 is Bob's node), named volumes,
 # explicit amd64 platform for amd64-only images, and three RLN nodes as services.
 # Never point this at mainnet.
 name: settleup
@@ -69,37 +69,37 @@ services:
     ports:
       - 3000:3000
 
-  rln-giulia:
+  rln-alice:
     <<: *rln
     command: ["/RLNdata", "--daemon-listening-port", "3001", "--ldk-peer-listening-port", "9735", "--network", "regtest", "--disable-authentication"]
     ports:
       - 3001:3001
       - 9735:9735
     volumes:
-      - rln-giulia:/RLNdata
+      - rln-alice:/RLNdata
 
-  rln-ben:
+  rln-bob:
     <<: *rln
     command: ["/RLNdata", "--daemon-listening-port", "3002", "--ldk-peer-listening-port", "9736", "--network", "regtest", "--disable-authentication"]
     ports:
       - 3002:3002
       - 9736:9736
     volumes:
-      - rln-ben:/RLNdata
+      - rln-bob:/RLNdata
 
-  rln-sam:
+  rln-charlie:
     <<: *rln
     command: ["/RLNdata", "--daemon-listening-port", "3003", "--ldk-peer-listening-port", "9737", "--network", "regtest", "--disable-authentication"]
     ports:
       - 3003:3003
       - 9737:9737
     volumes:
-      - rln-sam:/RLNdata
+      - rln-charlie:/RLNdata
 
 volumes:
   bitcoind:
   electrs:
   esplora:
-  rln-giulia:
-  rln-ben:
-  rln-sam:
+  rln-alice:
+  rln-bob:
+  rln-charlie:

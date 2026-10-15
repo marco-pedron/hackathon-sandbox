@@ -1,6 +1,7 @@
-// @settleup/ledger — pure money logic: FX, split, balances, settlement plan. No I/O.
+// @settleup/ledger — pure money logic: FX, split, balances, settlement plan, deposit pot. No I/O.
 export {
   CurrencyCodeSchema,
+  DepositSchema,
   ExpenseAllocationSchema,
   ExpenseDraftSchema,
   ExpenseExtrasSchema,
@@ -10,6 +11,8 @@ export {
   RateTableSchema,
   SettlementSchema,
   ShareSchema,
+  TripConfigSchema,
+  type Deposit,
   type Expense,
   type ExpenseAllocation,
   type ExpenseDraft,
@@ -19,6 +22,7 @@ export {
   type RateTable,
   type Settlement,
   type Share,
+  type TripConfig,
 } from '@settleup/shared';
 export { allocateByWeight, splitEqually, type Weighted } from './allocate.js';
 export { ASSET_PRECISION, assetUnitsToUsdCents, usdCentsToAssetUnits } from './asset.js';
@@ -36,4 +40,15 @@ export {
   type Money,
 } from './money.js';
 export { divRoundHalfUp, parseDecimal, type Rational } from './rational.js';
+export {
+  closePot,
+  confirmedDeposits,
+  exposure,
+  potThreshold,
+  type Exposure,
+  type ExposureLevel,
+  type MemberDeposit,
+  type Payout,
+  type PotClosing,
+} from './pot.js';
 export { simplify, type Transfer } from './simplify.js';

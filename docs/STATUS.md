@@ -1,5 +1,28 @@
 # STATUS
 
+## Phase 2b — Group deposit pot logic: ✅ done (2026-10-15)
+
+Acceptance verified: `pnpm test` → 117 tests green; `pnpm test:cov` → ledger 99.6% statements, 97.9% branches; `pnpm typecheck` and `pnpm lint` green. Logic only: no custody, no RGB, no multisig (the spike decides custody).
+
+### What works
+- `packages/ledger/src/pot.ts`: `potThreshold`, `confirmedDeposits`, `exposure`, `closePot`. Zod schemas `TripConfig` and `Deposit` in `packages/shared/src/ledger.ts`. New error codes `INVALID_TRIP_CONFIG`, `POT_NOT_SETTLED`.
+
+### The pot rules, in plain words (pitch material)
+- **Deposits are custody, not expenses.** They never change who owes whom. Only confirmed deposits count; a member's deposit is the sum of their confirmed ones (D is the target, not enforced).
+- **Approval threshold:** a strict majority, floor(n/2) + 1 (2 of 3).
+- **Exposure:** debt = what a member owes right now (confirmed balances only). Warning at 80% of their deposit, "over" when the debt is larger than the deposit.
+- **Closing the pot:** everyone gets deposit + balance. A debtor who owes more than their deposit gets 0, and the part not covered is shared by the creditors in proportion to what they are owed (leftover cent by largest remainder, ties by id). Nobody gets a negative payout, and the payouts add up exactly to the pot.
+- **No close while money is in flight.** If any settlement or deposit is still pending, closing is refused (`POT_NOT_SETTLED`): it could land after the payout and be counted twice. This replaces the spec's "pending are ignored" (it would pay twice). Zero payouts are returned; the custody layer skips them.
+- **Demo §1:** D = 50.00, alice pays the 9.68 dinner, bob settles 3.09, charlie disappears → payouts alice 53.50, bob 50.00, charlie 46.50 (pot 150.00).
+
+### Honest limits (README + pitch)
+- The pot covers at most D per member; beyond that the creditors share the loss.
+- A majority can collude against a minority. With 2 members the threshold is 2, so a runaway can block the payout; with 3, two runaways block it.
+- Paying out on-chain needs BTC fees from the pot wallet; the ledger does not model them.
+
+### Next step
+Spike `spike-multisig-pot` (custody C vs B), then Phase 3 — AI pipeline.
+
 ## Phase 2 — Domain logic: ✅ done (2026-10-14)
 
 Acceptance verified: `pnpm test` → 98 tests green; `pnpm test:cov` → ledger 100% statements, 98% branches (threshold 90/90); `pnpm typecheck` and `pnpm lint` green.

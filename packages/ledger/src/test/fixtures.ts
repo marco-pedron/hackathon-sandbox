@@ -1,4 +1,4 @@
-import type { ExpenseDraft, Settlement } from '@settleup/shared';
+import type { Deposit, ExpenseDraft, Settlement, TripConfig } from '@settleup/shared';
 
 export const LOCKED_AT = '2026-10-17T19:30:00.000Z';
 export const APPROVED_AT = '2026-10-17T19:31:00.000Z';
@@ -79,3 +79,27 @@ export const usdSupermarket: ExpenseDraft = draft({
   payer: 'charlie',
   participants: ['alice', 'bob', 'charlie'],
 });
+
+// The demo trip from docs/PROMPT-hackathon.md §1: D = 50.00 USD per member.
+export const demoTrip: TripConfig = {
+  tripId: 'vietnam-2026',
+  members: ['alice', 'bob', 'charlie'],
+  depositPerMemberCents: 5_000n,
+};
+
+export function deposit(
+  member: string,
+  amountCents: bigint,
+  status: Deposit['status'] = 'confirmed',
+  id = `d-${member}-${status}`,
+): Deposit {
+  return {
+    id,
+    tripId: 'vietnam-2026',
+    member,
+    amountCents,
+    status,
+    ref: status === 'pending' ? null : 'c0ffee01',
+    createdAt: LOCKED_AT,
+  };
+}

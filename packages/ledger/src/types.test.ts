@@ -1,5 +1,11 @@
 import { describe, expectTypeOf, it } from 'vitest';
 import type {
+  Deposit,
+  Exposure,
+  MemberDeposit,
+  Payout,
+  PotClosing,
+  TripConfig,
   Expense,
   ExpenseAllocation,
   ExpenseItem,
@@ -25,6 +31,14 @@ describe('amount types are bigint', () => {
     expectTypeOf<Settlement['amountCents']>().toEqualTypeOf<bigint>();
     expectTypeOf<NetPosition['netCents']>().toEqualTypeOf<bigint>();
     expectTypeOf<Transfer['amountCents']>().toEqualTypeOf<bigint>();
+    expectTypeOf<TripConfig['depositPerMemberCents']>().toEqualTypeOf<bigint>();
+    expectTypeOf<Deposit['amountCents']>().toEqualTypeOf<bigint>();
+    expectTypeOf<MemberDeposit['depositCents']>().toEqualTypeOf<bigint>();
+    expectTypeOf<Exposure['debtCents']>().toEqualTypeOf<bigint>();
+    expectTypeOf<Payout['payoutCents']>().toEqualTypeOf<bigint>();
+    expectTypeOf<Payout['uncoveredChargeCents']>().toEqualTypeOf<bigint>();
+    expectTypeOf<PotClosing['potTotalCents']>().toEqualTypeOf<bigint>();
+    expectTypeOf<PotClosing['uncoveredCents']>().toEqualTypeOf<bigint>();
   });
 
   it('rates are decimal strings, not numbers', () => {

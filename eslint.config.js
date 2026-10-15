@@ -19,7 +19,11 @@ export default tseslint.config(
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },
   {
     // No floats in money code: amounts are bigint, rates are decimal strings parsed exactly.
-    files: ['packages/ledger/src/**/*.ts', 'packages/shared/src/ledger.ts'],
+    files: [
+      'packages/ledger/src/**/*.ts',
+      'packages/shared/src/ledger.ts',
+      'packages/shared/src/kitty.ts',
+    ],
     ignores: ['**/*.test.ts', 'packages/ledger/src/test/**'],
     rules: {
       'no-restricted-syntax': [

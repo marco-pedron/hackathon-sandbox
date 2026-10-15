@@ -3,3 +3,4 @@
 export * from './kitty.js';
 export * from './ledger.js';
 export * from './api.js';
+export * from './client.js';

@@ -41,7 +41,7 @@ export function settlement(
 // "Bob and I shared the pho, Charlie only had beers, split the water three ways" + tip.
 export const vndDinner: ExpenseDraft = draft({
   id: 'dinner',
-  description: 'Pho Gia Truyen',
+  description: 'Pho restaurant, Hanoi',
   currency: 'VND',
   items: [
     { label: 'Pho bo x2', amount: 130_000n, participants: ['alice', 'bob'] },

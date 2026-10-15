@@ -62,7 +62,7 @@ const proof = {
   elapsedMs: 4200,
 };
 const receipt = {
-  merchant: 'Pho Gia Truyen',
+  merchant: 'Pho restaurant, Hanoi',
   date: '2026-10-17',
   currency: 'VND' as const,
   items: [{ label: 'Pho bo', quantity: 2, unitPrice: 65_000n, total: 130_000n }],
@@ -80,7 +80,7 @@ const payout = {
 };
 const expense = {
   id: 'dinner',
-  description: 'Pho Gia Truyen',
+  description: 'Pho restaurant, Hanoi',
   payer: 'alice' as const,
   currency: 'VND' as const,
   total: 255_000n,

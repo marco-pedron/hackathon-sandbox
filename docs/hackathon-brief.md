@@ -44,7 +44,7 @@ Viaggi di gruppo organizzati tra persone che non si conoscono (format tipo WeRoa
 | Quota esaurita | Avviso al 20% residuo. Quota negativa → `TOPUP_REQUIRED`, prelievi bloccati. La parte scoperta non viene rimborsata subito: resta un credito di chi ha pagato. |
 | Liquidità della cassa | Un rimborso non può mai usare soldi che appartengono alle quote positive degli altri: regola deterministica nel ledger. |
 | Registro | Off-chain, append-only, condiviso (SQLite nella demo). Catena di hash come extra; P2P e firme in roadmap. |
-| Tassi di cambio | "Tasso del giorno" del coordinatore (tabella con data e fonte), bloccato al momento dell'approvazione. |
+| Tassi di cambio | "Tasso del giorno" del coordinatore (tabella con data e fonte), bloccato all'invio della spesa, così ciò che un debitore approva è ciò che gli viene addebitato. |
 | Uscita e fuga | Il deposito fa da garanzia: chi sparisce ha già pagato la sua parte con la propria quota. Uscita anticipata come extra. |
 | Consumer o B2B | B2B2C: venduto al tour operator, usato dal coordinatore e dai viaggiatori. |
 | UI | Una sola web app con viste per ruolo (`?as=alice|bob|charlie|dave`); tre finestre a larghezza telefono affiancate sul palco. |

@@ -68,7 +68,7 @@ At trip start every traveler prefunds a **digital kitty** with D digital dollars
      - **Silent assent** after `SILENT_ASSENT_SECONDS` (demo: 20; in production: hours).
      - The coordinator never approves lines on a traveler's behalf.
    - **Payouts:** the coordinator approves them. This is the human-in-the-loop moment of the demo. They are then sent from dave's node. Several payouts can go in **one batch**: one witness tx, many recipients. RLN batch send was verified in Phase 1.
-7. **FX.** The rate table is the coordinator's "rate of the day": `infra/rates.json` in the demo, with `asOf` and `source`. The rate is locked when the expense is approved, as today. Only the coordinator may set a manual rate.
+7. **FX.** The rate table is the coordinator's "rate of the day": `infra/rates.json` in the demo, with `asOf` and `source`. The rate is locked at submission, so what a debtor approves is what is charged. Only the coordinator may set a manual rate.
 8. **Close.**
    - The coordinator proposes final payouts: `closePot` over quotas, generalized to payouts already made.
    - Close is refused while any deposit or payout is pending (`POT_NOT_SETTLED`).
@@ -83,7 +83,7 @@ Before going on stage: `pnpm demo:reset`. This wipes the chain, seeds the 4 node
 
 1. Alice taps "I paid" and uploads the VND restaurant receipt.
 2. On-device extraction ("Reading the receipt on this device…", with elapsed time) → editable review of merchant, date, currency, items, total and warnings.
-3. Alice types: *"Bob and I shared the pho, Charlie only had beers, split the water three ways"* → proposed lines per person → she submits. The rate is locked from Dave's rate of the day, shown with its date and source.
+3. Alice types: *"Bob and I shared the pho, Charlie only had beers, split the water three ways"* → proposed lines per person → she submits. The rate is locked at submission from Dave's rate of the day, shown with its date and source, so what a debtor approves is what is charged.
 4. Bob's window shows his lines and his amount → Approve. Charlie's lines show a silent-assent countdown → assented.
 5. Dave's window, payout queue: "Reimburse Alice 6.59 USD — from Bob 3.09, Charlie 3.50" → Approve → real RGB transfer dave → alice → pending → confirmed (auto-mine on regtest).
 6. Proof panel: the RLN transfer status, the witness txid, and a link to esplora REST `/tx/<txid>` (new tab, an independent source).

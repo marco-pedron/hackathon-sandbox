@@ -16,6 +16,7 @@
 - Never `git push --force`, never rewrite history on `main`. Work on a branch named `phase-N-short-name` (or `spike-short-name` for time-boxed experiments, whose code stays under `spikes/`); a human opens the PR.
 - If a command fails 3 times, stop and report: what you tried, the exact error, your hypothesis.
 - If information you need is not in the docs listed above, say so and ask. Do not invent APIs, endpoints, model names or CLI flags.
+- If a rule in PROMPT-hackathon.md looks wrong, stop and propose the change; never override it on your own.
 
 ## Environment
 - Node >= 22.17, pnpm via corepack, Docker Desktop (Compose v2: use `docker compose`, not `docker-compose`), TypeScript strict mode.

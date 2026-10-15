@@ -71,13 +71,10 @@ export type LineDecision = z.infer<typeof LineDecisionSchema>;
 export const LineStatusSchema = z.enum(['approved', 'contested', 'assented', 'pending']);
 export type LineStatus = z.infer<typeof LineStatusSchema>;
 
-export const ExpenseStatusSchema = z.enum([
-  'awaiting_approval',
-  'approved',
-  'contested',
-  'voided',
-  'reimbursed',
-]);
+// Approval state only. Reimbursement state lives on Payout (expenseIds): a reimbursement is
+// capped by `reimbursable` and can be partial or cover several expenses, so it is not a
+// per-expense status.
+export const ExpenseStatusSchema = z.enum(['awaiting_approval', 'approved', 'contested', 'voided']);
 export type ExpenseStatus = z.infer<typeof ExpenseStatusSchema>;
 
 // low: quota ≤ 20% of deposits. topup_required: quota < 0 (withdrawals blocked).

@@ -251,7 +251,8 @@ export const ExpenseViewSchema = z.object({
   decisions: z.array(LineDecisionSchema),
   submittedAt: z.iso.datetime(),
   silentAssentAt: z.iso.datetime(),
-  // The reimbursement payout, once proposed.
+  // The latest reimbursement payout covering this expense, once proposed. Its status is the
+  // reimbursement state (ExpenseStatus has none).
   payoutId: z.string().optional(),
 });
 export type ExpenseView = z.output<typeof ExpenseViewSchema>;

@@ -12,11 +12,11 @@ You are the lead engineer of a 3-person team at a 27-hour hackathon (build: Sat 
 
 1. **Never invent APIs.** The SDKs here (QVAC, rgb-lightning-node, WDK, @utexo/*) are new and you have seen little or none of their code. For every call you write:
    - QVAC → only functions, options, and model constants that appear in `QVAC.md` or in `node_modules/@qvac/sdk` type definitions. Read the `.d.ts` files before using a function.
-   - rgb-lightning-node → only endpoints and fields that appear in `rgb-lightning-node/openapi.yaml`. Generate a typed client from it (see Phase 2). Do not guess request bodies.
+   - rgb-lightning-node → only endpoints and fields that appear in `rgb-lightning-node/openapi.yaml`. Use the typed client generated from it in Phase 0 (`packages/rgb-client`). Do not guess request bodies.
    - If the needed function is not documented, STOP and report: "I need X, I can't find it in the docs, options are A/B." Do not fake it.
 2. **No simulated transactions.** Every "payment" in the UI must correspond to a real RGB transfer on regtest, visible in the explorer (esplora) and in the RLN node's transfer list. A `console.log("paid")`, a mocked balance, or a hardcoded success is forbidden. The jury criterion is literally "working transactions, not simulated".
 3. **Correct RGB terminology and version.** Use only **RGB Protocol on Bitcoin v0.11.1** (`docs.rgb.info`, `github.com/rgb-protocol`, `github.com/RGB-Tools`). Never use `rgb.tech`, `github.com/RGB-WG`, RGB v0.12, or RGB++. The asset schema is **NIA** (not "RGB20"). Say "private contract", not "smart contract", in code comments, README and UI copy.
-4. **Money logic is deterministic code, never the LLM.** The LLM extracts and proposes. Arithmetic, currency conversion, balance netting and debt simplification are plain TypeScript functions with unit tests. Amounts are integers in minor units (cents / asset precision units), never floats.
+4. **Money logic is deterministic code, never the LLM.** The LLM extracts and proposes. Arithmetic, currency conversion, balance netting, debt simplification and pot payouts are plain TypeScript functions with unit tests. Amounts are integers in minor units (cents / asset precision units), never floats.
 5. **Every AI output passes through a zod schema.** Max 2 retries with the validation error fed back to the model, then fall back to a manual form pre-filled with whatever was parsed. The app must never crash or hang because the model returned bad JSON.
 6. **Commit after every working step** with a descriptive message (`feat(rgb): send NIA asset alice→bob on regtest`). The hackathon judges only work in dated commits made during the event.
 7. **Small, verifiable steps.** After each step run the check, paste the output, then continue. If something fails 3 times in a row, stop and summarize: what you tried, the exact error, your best hypothesis.
@@ -28,18 +28,24 @@ You are the lead engineer of a 3-person team at a 27-hour hackathon (build: Sat 
 
 **User:** an Italian traveler on an organized group trip (WeRoad-style) with strangers from other countries — e.g. Alice (IT, EUR), Bob (DE, EUR), Charlie (US, USD) in Vietnam — paying in VND, sharing dinners and taxis. People pay in turns; at the end of the trip the group dissolves and small debts are never settled.
 
+**Anti-runaway rule (group deposit pot):** at trip start every member deposits the same amount D of digital dollars into a **shared pot that no single person can spend** (target custody: 2-of-3 RGB multisig, see section 3b). Expenses update balances during the trip; members can still settle directly at any time. At trip close **one payout from the pot** settles every remaining balance, so whoever disappears without paying has already paid through their deposit.
+
 **Promise:** snap the receipt → on-device AI reads it and proposes who owes what → the group approves → balances are netted in one unit (digital dollars on RGB) → whoever owes settles **right now**, with a real RGB payment, no banks, no IBAN, no country-specific app.
 
 **The single happy path (the demo, ~90 seconds):**
 
-1. Pre-loaded trip "Vietnam 2026" with 3 members (Alice, Bob, Charlie), each with their own RGB node and a balance of the demo NIA asset.
+1. Pre-loaded trip "Vietnam 2026" with 3 members (Alice, Bob, Charlie), each with their own RGB node and a balance of the demo NIA asset, and each has already deposited D = 50.00 into the pot.
 2. Alice uploads a photo of a restaurant receipt in VND.
 3. The local model extracts: merchant, date, currency, line items, total. UI shows the extraction with a confidence hint and lets the user edit any field.
 4. Alice types in natural language: *"Bob and I shared the pho, Charlie only had beers, split the water three ways"*. The local model maps this to an item → participants assignment. UI shows the proposed split per person.
 5. Alice approves. The expense is recorded with the **FX rate locked at that moment** (VND→USD from the bundled rate table, shown with its date and source).
 6. The balances screen shows net positions in USD and the **simplified** settlement plan (minimum number of transfers).
 7. Bob clicks "Settle now" → real RGB transfer Bob→Alice → status goes pending → confirmed → balances update. A link opens the transfer in the regtest explorer.
-8. A "Proof" panel shows: the RGB transfer status from the node, the witness txid, and the explorer link.
+8. A "Proof" panel shows: the RGB transfer status from the node, the witness txid, and a link to the raw esplora REST `/tx/<txid>` (opens in a new tab: an independent source, not our rendering).
+9. The Trip screen shows the pot: each member's deposit and how much of it is committed by their open debt (warning at 80%).
+10. Charlie never settles his share of the dinner and stops answering. "Close trip" → closePot computes the payouts → one payout from the pot, approved by Alice and Bob (2 of 3, Charlie absent) → Alice is paid what Charlie owed her out of Charlie's deposit, everyone else gets deposit ± balance → Proof panel shows the payout txid. This is the anti-runaway moment of the demo.
+
+Steps 9–10 depend on the multisig spike (section 3b): if it fails, the pot is custodied by the trip coordinator (fallback, stated honestly) and the multisig moves to the roadmap.
 
 Everything else is out of scope.
 
@@ -52,6 +58,7 @@ Everything else is out of scope.
                                         ├── ai/        @qvac/sdk (OCR + LLM, in-process)
                                         ├── ledger/    expenses, FX, netting, simplification (pure TS + SQLite)
                                         ├── rgb/       typed client for 3× rgb-lightning-node REST APIs
+                                        ├── pot/       group deposit pot custody (C: rgb-lib multisig + hub, or B: RLN node dave :3004 — decided by the spike)
                                         └── wdk/       (Phase 6, optional) @tetherto/wdk + @utexo/*
                                                 │
                     docker-compose (regtest): bitcoind, electrs, esplora, rgb-proxy-server
@@ -81,12 +88,28 @@ Decisions (do not revisit unless blocked):
 - `Money = { amount: bigint; currency: ISO4217 }` in minor units. Respect currency exponents (VND = 0, USD/EUR = 2).
 - **FX:** `infra/rates.json` = static snapshot `{ base: "USD", asOf: "2026-10-16", source: "...", rates: { EUR: ..., VND: ..., ... } }`. Rule: **the rate is locked at the time the expense is approved and stored on the expense**; it is never recomputed. The user can override the rate manually (stored with `rateSource: "manual"`). The UI always shows rate, date and source.
 - **Asset units:** the demo NIA asset has precision 2 and represents 1 USD per unit-of-100. Conversion USD-cents → asset units is 1:1. Put this in one function.
-- **Split:** item-level assignment; unassigned items (tax, service, tip) split proportionally or equally (equally is fine — document the rule). Rounding: largest-remainder method so the per-person shares sum exactly to the total.
+- **Split:** item-level assignment; tax, service and tip split proportionally to each person's item subtotal (equally if no priced items) — implemented in Phase 2, see docs/STATUS.md. Rounding: largest-remainder method so the per-person shares sum exactly to the total.
 - **Balances:** net per participant = paid − owed, in USD cents.
 - **Simplification:** greedy min-cash-flow (match largest debtor with largest creditor). Tests: totals conserve to zero; 3-person and 5-person cases; already-settled case; rounding edge cases.
 - **Settlements** are ledger entries linked to an RGB transfer reference; a settlement only reduces balances once its status is `confirmed`.
 
 ---
+
+## 3b. Group deposit pot
+
+**Logic (pure TypeScript in `packages/ledger`, sub-phase 2b):**
+- TripConfig: members, depositPerMember D (USD cents), threshold = floor(n/2)+1.
+- Deposits are custody, not expenses: they never change nets. Only confirmed deposits count.
+- exposure(member): debt = max(0, −net); `warn` at ≥ 80% of the member's deposit, `over` when debt > deposit.
+- closePot(nets, deposits): payout = deposit + net for each member. If a debtor's debt exceeds their deposit, their payout is 0 and the excess is **uncovered**, charged to creditors pro-rata (largest remainder, ties by member id). Invariant: sum(payouts) == pot total exactly; no negative payout.
+- Pending settlements are ignored, same as simplify().
+
+**Custody (decided by a time-boxed spike, `spikes/multisig/`):**
+- Target (C): a 2-of-3 RGB multisig wallet via rgb-lib `MultisigWallet` + `rgb-multisig-hub` (docs: `github.com/RGB-Tools/rgb-lib/blob/master/docs/multisig.md`). Receiving into the pot is auto-approved; the payout needs threshold approvals; only one pending operation at a time, so the pot is touched only twice (fund, close), never per expense.
+- Fallback (B): the pot is a 4th RLN node, **dave** (the trip coordinator, port 3004). Custodial: say so in the README and pitch.
+- Do not build either custody in product code until the spike reports. Never invent multisig APIs: use only what rgb-lib docs and bindings show.
+
+**Honest limits (README + pitch):** the pot covers at most D per member; a majority of signers could collude against a minority (the ledger is transparent, so abuse is visible).
 
 ## 4. AI layer (QVAC, on-device) — the AI must be central, not decorative
 
@@ -104,13 +127,13 @@ Implementation requirements:
 - Prompt templates in separate files, with 1–2 few-shot examples each; ask for JSON only. Strip code fences before parsing.
 - Load models once at server start; expose `/api/ai/status` (loading / ready / error) and show it in the UI.
 - Pick the smallest models in the QVAC registry that pass the 3 sample receipts. Log latency per call. Target < 20 s per receipt on the demo laptop.
-- Everything works with networking disabled after models are downloaded (verify in Phase 1).
+- Everything works with networking disabled after models are downloaded (verify in Phase 3).
 
 ---
 
 ## 5. UI (React + Vite + Tailwind) — judged on flow, not looks
 
-Screens: **Trip** (members, balances, settlement plan) → **Add expense** (upload → extraction review → NL split → approve) → **Settle** (one button per suggested transfer) → **Proof** panel.
+Screens: **Trip** (members, balances, settlement plan, **pot**: deposit and exposure per member, "Close trip") → **Add expense** (upload → extraction review → NL split → approve) → **Settle** (one button per suggested transfer) → **Proof** panel.
 
 Required UX:
 - Every async step shows what is happening ("Reading receipt on this device…", "Waiting for Bitcoin confirmation…") with elapsed time.
@@ -118,6 +141,7 @@ Required UX:
 - The AI proposal is always editable; approval is an explicit click.
 - A visible "Runs on this device — receipts never leave it" indicator tied to the actual AI status.
 - Participant switcher always visible.
+- Close trip shows the payout table from closePot (including any uncovered amount) and who has approved, before anything is sent.
 
 ---
 
@@ -129,10 +153,10 @@ Required UX:
 - `infra/scripts/`: `up.sh`, `down.sh`, `mine.sh <n>`, `reset.sh` (wipe volumes, restart).
 - Download QVAC models into the cache; `pnpm ai:smoke` loads them and prints "ready".
 - Copy `rgb-lightning-node/openapi.yaml` into `packages/rgb-client/` and generate a typed client (`openapi-typescript` + `openapi-fetch`).
-- ✅ Check: `./infra/scripts/up.sh` brings everything up from a cold start; each RLN `/nodeinfo` (or the equivalent endpoint from openapi.yaml) responds; esplora UI loads; `pnpm ai:smoke` passes **with Wi-Fi off**.
+- ✅ Check: `./infra/scripts/up.sh` brings everything up from a cold start; each RLN `/nodeinfo` (or the equivalent endpoint from openapi.yaml) responds; the esplora REST API answers (`/blocks/tip/height`) — decided: no esplora web UI, the proof is the REST `/tx/<txid>`; `pnpm ai:smoke` passes **with Wi-Fi off**.
 
 ### Phase 1 — RGB core on regtest (on-site)
-- `infra/scripts/seed.ts`: init + unlock the 3 nodes, fund each with regtest BTC, mine, create UTXOs for RGB allocations, **issue the NIA demo asset** from Alice's node, distribute an initial balance to Bob and Charlie via real transfers, mine, refresh. Idempotent where possible; otherwise `reset.sh && seed`.
+- `pnpm rgb:seed` (code in `apps/server`): init + unlock the 3 nodes, fund each with regtest BTC, mine, create UTXOs for RGB allocations, **issue the NIA demo asset** from Alice's node, distribute an initial balance to Bob and Charlie via real transfers, mine, refresh. Idempotent where possible; otherwise `pnpm infra:reset && pnpm rgb:seed`.
 - `rgb/` module: `getAssetBalance(p)`, and the on-chain `SettlementRail` (receiver invoice → payer send → mine → refresh both → status).
 - ✅ Check: `pnpm rgb:e2e` performs Bob→Alice 5.00 USD, prints both balances before/after and the witness txid, and the txid is visible in esplora. **Commit.**
 
@@ -140,15 +164,25 @@ Required UX:
 - Implement section 3 with tests. No UI yet.
 - ✅ Check: `pnpm test` green, coverage on ledger ≥ 90%. **Commit.**
 
+### Phase 2b — Group deposit pot logic
+- Implement the logic of section 3b in `packages/ledger`, with example and property tests.
+- ✅ Check: same as Phase 2 (`pnpm test`, `pnpm test:cov` ledger ≥ 90/90, typecheck, lint). **Commit.**
+
+### Spike — Pot custody (time-boxed, ~4 h, branch `spike-multisig-pot`)
+- Answer first: which rgb-lib bindings expose MultisigWallet; how to run rgb-multisig-hub on our regtest stack; RAM impact (Docker Desktop has ~4 GB).
+- ✅ Success: 2-of-3 multisig receives the NIA asset from alice's RLN node, then pays out to bob's node with alice + charlie approving and bob absent; witness txid confirmed on esplora REST.
+- Also answer: can one payout pay several recipients in a single operation (needed by closePot)? Zero payouts are skipped, not sent.
+- Outcome decides C or B for steps 9–10. Record it in docs/STATUS.md.
+
 ### Phase 3 — AI pipeline (on-site)
 - Implement section 4. `infra/fixtures/receipts/`: 3 receipt photos (VND restaurant, EUR taxi, USD supermarket) + expected JSON.
 - `pnpm ai:eval` runs all 3, prints field-level accuracy, attempts and latency.
 - ✅ Check: all 3 produce a valid `ReceiptSchema` (with manual corrections allowed for at most 1 field each); the NL split sentence from section 1 produces the correct assignment. **Commit.**
 
 ### Phase 4 — API + UI, full happy path
-- Fastify routes: trips, expenses (create from image, propose split, approve), balances, settlement plan, settle, settlement status, ai status. Request/response validated with the shared zod schemas.
+- Fastify routes: trips, expenses (create from image, propose split, approve), balances, settlement plan, settle, settlement status, pot (deposits, exposure, close: propose payouts, approve, status), ai status. Request/response validated with the shared zod schemas.
 - UI per section 5.
-- ✅ Check: run the full demo of section 1 by hand from a fresh `reset.sh && seed`, with Wi-Fi off. Record a screen video. **Commit + tag `demo-v1`.** (Target: Saturday evening.)
+- ✅ Check: run the full demo of section 1 by hand from a fresh `pnpm infra:reset && pnpm rgb:seed`, with Wi-Fi off. Record a screen video. **Commit + tag `demo-v1`.** (Target: Saturday evening.)
 
 ### Phase 5 — RGB over Lightning (only if `demo-v1` is tagged)
 - Seed script opens RGB-enabled channels (e.g. Bob→Alice, Charlie→Alice, or through one node acting as a hub/LSP) with the NIA asset, per the RLN openapi (`openchannel` with asset fields, `lninvoice`, `sendpayment` or equivalents — verify names).
@@ -160,7 +194,7 @@ Required UX:
 - If it doesn't work end-to-end within the time box, revert to the last tag. A half-working WDK integration is worth less than a clean demo.
 
 ### Phase 7 — Hardening & demo prep (Sunday morning, feature freeze at 11:00)
-- `pnpm demo:reset` → wipe + seed + preload trip "Vietnam 2026" with 2 past expenses, so the live demo adds only the 3rd.
+- `pnpm demo:reset` → wipe + seed + fund the pot (real deposits of D from alice, bob, charlie) + preload trip "Vietnam 2026" with 2 past expenses, so the live demo adds only the 3rd.
 - Error-path test: kill one RLN node mid-settlement → UI shows a clear error and recovers when it's back.
 - README: what it does, architecture diagram, how to run, what's real vs simulated (3 nodes on one laptop; ledger not yet P2P), what was pre-existing vs built during the hackathon, roadmap.
 - ✅ Check: two clean demo runs in a row from `demo:reset`, Wi-Fi off. Submit before 13:00.
@@ -175,8 +209,9 @@ Write a 3-minute pitch outline addressed to a Tether / Utexo / KaleidoSwap jury:
 3. Why RGB specifically: a dollar that's native to Bitcoin, self-custodial, cross-border, with no separate gas token, private by design (client-side validation), instant over Lightning.
 4. Why local AI: receipts and spending habits never leave the phone.
 5. Live demo (the happy path) + explorer proof.
-6. Honest open problems and answers: onboarding (organizer acts as LSP and opens channels), FX (rate locked at expense time), off-ramp (USDT on RGB via Utexo/exchanges).
-7. Business: B2B2C via group-travel operators.
+6. The anti-runaway pot (Charlie disappears, his debt is paid from his deposit): deposits in a 2-of-3 RGB multisig (or coordinator custody, if the spike failed), one payout at trip close; honest limits (covers up to D per member, majority collusion).
+7. Honest open problems and answers: onboarding (organizer acts as LSP and opens channels), FX (rate locked at expense time), off-ramp (USDT on RGB via Utexo/exchanges).
+8. Business: B2B2C via group-travel operators.
 
 Also list 5 hard questions the jury is likely to ask, with short answers.
 

@@ -2,3 +2,4 @@
 // ParticipantIdSchema (alice | bob | charlie) lives in kitty.ts, next to the other ids.
 export * from './kitty.js';
 export * from './ledger.js';
+export * from './api.js';

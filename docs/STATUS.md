@@ -1,5 +1,34 @@
 # STATUS
 
+Per-stream progress since the split lives in `docs/status/ledger-ai.md` (stream A), `docs/status/rgb-api.md` (stream B) and `docs/status/ui.md` (stream C). This file is merged at integration checkpoints.
+
+## Pivot — 2026-10-15
+
+The product is now a **prefunded group kitty custodied by the coordinator** (dave), replacing the cash envelope. Spec: `docs/PROMPT-hackathon.md` §1 "Kitty rules". Interfaces for all three streams were fixed in the contract session (branch `phase-contract`).
+
+### What changes
+- **Custody:** the kitty is dave's RGB node (`rln-dave`, port 3004, Phase 0b). It is custodial, and we say so; multisig is roadmap only.
+- **Quota model:** `quota(m) = confirmedDeposits(m) + net(m) − confirmedPayoutsTo(m)`, with `potCash = Σ quota` = dave's settled DUSD balance. A payer is reimbursed from the kitty only for credit above their own deposit, and never with money backing another member's positive quota. Stubs are in `packages/ledger/src/kitty.ts`, and the `it.todo` checklist is in `packages/ledger/src/kitty.test.ts` (Phase 2c, stream A).
+- **No traveler-to-traveler settlement in the UI.** Deposits go traveler → dave, and reimbursements and final payouts go dave → traveler. `simplify()` and `Settlement` stay in the ledger but the demo does not use them.
+- **Approvals:** each debtor approves their own lines (or contests them), with silent assent after `SILENT_ASSENT_SECONDS`. dave approves payouts and can only void a contested expense.
+- **`ExpenseStatus`** is `awaiting_approval | approved | contested | voided`. `reimbursed` was removed: reimbursement state lives on `Payout` (`expenseIds`), and `ExpenseView.payoutId` links the two.
+- **FX is locked at submission**, so what a debtor approves is what is charged.
+- **Close** pays reachable members in one batch. An unreachable member's quota stays in the kitty as unclaimed.
+
+### What is reused
+- Phase 0 (environment), Phase 1 (RGB seed and the on-chain `SettlementRail`, including batch `/sendrgb`), Phase 2 (FX, split, balances) and Phase 2b (`confirmedDeposits`, `exposure`, `closePot`, `POT_NOT_SETTLED`). They are extended, not rewritten.
+
+### New demo numbers (PROMPT §1, D = 50.00)
+- Dinner 255,000 VND = 9.68 USD at 26,350 VND/USD. Shares: alice 3.09, bob 3.09, charlie 3.50.
+- Reimbursement of alice: **6.59** (from bob 3.09, charlie 3.50).
+- Quotas after it: alice **50.00**, bob **46.91**, charlie **46.50**. Kitty **143.41** = dave's node balance.
+- Close with charlie offline: alice 50.00 and bob 46.91 in one batch, charlie 46.50 unclaimed.
+- The 2b numbers below (payouts 53.50 / 50.00 / 46.50, pot 150.00) are **superseded**: they assumed bob settles alice peer-to-peer and no reimbursement.
+
+### Contract (where things are)
+- Shared schemas: `packages/shared/src/kitty.ts` (ids, Payout, LineDecision, QuotaView, ClosePlan, ErrorCode) and `api.ts` (bigint ↔ string codec, routes, Receipt/SplitProposal/AiResult, TransferProof). Typed client: `client.ts`.
+- Server interfaces: `apps/server/src/pot/types.ts`, `ai/types.ts`, `ledger/store.ts`. The dev-only `FAKE_AI=1` fake is in `dev-fakes/`, and `assertNoFakes()` is the guard for `demo:reset`.
+
 ## Phase 2b — Group deposit pot logic: ✅ done (2026-10-15)
 
 Acceptance verified: `pnpm test` → 117 tests green; `pnpm test:cov` → ledger 99.6% statements, 97.9% branches; `pnpm typecheck` and `pnpm lint` green. Logic only: no custody, no RGB, no multisig (the spike decides custody).
@@ -13,7 +42,7 @@ Acceptance verified: `pnpm test` → 117 tests green; `pnpm test:cov` → ledger
 - **Exposure:** debt = what a member owes right now (confirmed balances only). Warning at 80% of their deposit, "over" when the debt is larger than the deposit.
 - **Closing the pot:** everyone gets deposit + balance. A debtor who owes more than their deposit gets 0, and the part not covered is shared by the creditors in proportion to what they are owed (leftover cent by largest remainder, ties by id). Nobody gets a negative payout, and the payouts add up exactly to the pot.
 - **No close while money is in flight.** If any settlement or deposit is still pending, closing is refused (`POT_NOT_SETTLED`): it could land after the payout and be counted twice. This replaces the spec's "pending are ignored" (it would pay twice). Zero payouts are returned; the custody layer skips them.
-- **Demo §1:** D = 50.00, alice pays the 9.68 dinner, bob settles 3.09, charlie disappears → payouts alice 53.50, bob 50.00, charlie 46.50 (pot 150.00).
+- **Demo §1 (superseded by the pivot, see above):** D = 50.00, alice pays the 9.68 dinner, bob settles 3.09, charlie disappears → payouts alice 53.50, bob 50.00, charlie 46.50 (pot 150.00).
 
 ### Honest limits (README + pitch)
 - The pot covers at most D per member; beyond that the creditors share the loss.

@@ -1,45 +1,63 @@
 # Brief: Agentic Dollars on Bitcoin Hackathon — idea di progetto e regole
 
 > Documento di contesto da dare a un assistente AI. Contiene: l'idea su cui il team sta lavorando, le regole verificate dell'hackathon, lo stack tecnico obbligatorio e i punti aperti.
-> Aggiornato al 14 ottobre 2026 (hackathon: 17-18 ottobre 2026). Regole verificate sulla pagina ufficiale: https://rgbprotocol.org/agentic-dollars-hackathon/
+> Aggiornato al 15 ottobre 2026 (hackathon: 17-18 ottobre 2026). Regole verificate sulla pagina ufficiale: https://rgbprotocol.org/agentic-dollars-hackathon/
+> **Pivot del 15 ottobre:** l'idea non è più "dividere i debiti e saldarli tra viaggiatori", ma una **cassa comune digitale e trasparente** che sostituisce la busta di contanti del coordinatore. Le specifiche tecniche sono in `docs/PROMPT-hackathon.md`, il calendario in `docs/ROADMAP.md`.
 
 ---
 
 ## 1. L'idea chiave
 
-**Gestione e regolamento di debiti/crediti nei viaggi di gruppo tra sconosciuti, multi-valuta, con AI locale e settlement in dollari digitali su Bitcoin (USDT via RGB).**
+**Cassa comune digitale e trasparente per viaggi di gruppo organizzati, che sostituisce la busta di contanti: prefinanziata in dollari digitali su Bitcoin (asset NIA su RGB, USDT nel prodotto reale), custodita dal coordinatore, con AI locale che legge gli scontrini e rimborso immediato di chi anticipa.**
 
 ### Il contesto d'uso
-Viaggi di gruppo organizzati tra persone che non si conoscono (format tipo WeRoad / "si vola"): 10-15 persone, spesso di nazionalità diverse, 1-3 settimane, decine di spese condivise (cene, taxi, benzina, alloggi, attività), pagate a turno da persone diverse e in valute diverse.
+Viaggi di gruppo organizzati tra persone che non si conoscono (format tipo WeRoad, citato solo come esempio di mercato): 10-15 persone, spesso di nazionalità diverse, 1-3 settimane, decine di spese condivise (cene, taxi, benzina, alloggi, attività) pagate in valuta locale. C'è un **coordinatore** del viaggio, che oggi spesso gestisce una cassa comune in contanti.
+
+### Chi sono gli utenti (B2B2C)
+- **Cliente pagante:** il tour operator.
+- **Utente operativo:** il coordinatore (nella demo: Dave), custode della cassa.
+- **Utenti finali:** i viaggiatori (nella demo: Alice IT, Bob DE, Charlie US, in Vietnam).
 
 ### Il problema
-- Chi paga per primo anticipa soldi a sconosciuti e rischia di non rivederli: a fine viaggio il gruppo si scioglie e i debiti piccoli non vengono mai saldati.
-- Le persone più disponibili/ingenue finiscono sistematicamente in credito.
-- Multi-valuta: spese in valuta locale, partecipanti con conti in EUR, USD, GBP, CHF… I bonifici internazionali tra privati costano e sono lenti; non esiste un conto comune.
-- Le app esistenti (Splitwise, Tricount) **calcolano** chi deve cosa ma **non regolano** nulla: il saldo resta un promemoria.
+- **Busta di contanti:** opaca, in contanti e in valuta locale, un solo custode, il residuo restituito a mano a fine viaggio.
+- **Oppure qualcuno anticipa** e "poi ci sentiamo": le app esistenti (Splitwise, Tricount) calcolano chi deve cosa ma non regolano nulla. I più disponibili finiscono in credito verso sconosciuti che spariscono.
 
-### La soluzione proposta
-1. Si fotografa lo scontrino → **AI on-device (QVAC)** fa OCR ed estrazione strutturata (voci, importi, valuta, data), propone chi ha consumato cosa e la divisione.
-2. L'umano approva o corregge la proposta (pattern "l'AI propone, l'umano approva").
-3. Il registro delle spese è condiviso nel gruppo; i saldi sono netti e normalizzati in **un'unica unità: il dollaro digitale (USDT su RGB)**, a prescindere dalla valuta della spesa.
-4. Il regolamento avviene **subito o durante il viaggio**, non "poi ci sentiamo": trasferimento di asset RGB via Lightning, istantaneo e a costo quasi nullo, senza banche né confini.
-5. Privacy: scontrini e abitudini di spesa non lasciano il dispositivo.
+### La soluzione
+1. A inizio viaggio ogni partecipante versa una quota D nella **cassa comune** (nodo RGB del coordinatore).
+2. Chi paga una spesa comune fotografa lo scontrino. L'**AI on-device (QVAC)** fa OCR ed estrazione strutturata, poi trasforma una frase ("Bob e io la pho, Charlie solo birre, acqua in tre") nell'assegnazione delle righe.
+3. **Ogni debitore approva solo le proprie righe**: può contestarle, e dopo un timeout vale il silenzio-assenso. Il coordinatore approva il rimborso: è il momento "l'AI propone, l'umano approva".
+4. Chi ha pagato viene **rimborsato dalla cassa**, con le quote degli altri, tramite un trasferimento RGB reale. Ogni partecipante ha una quota visibile: deposito + crediti − debiti − rimborsi ricevuti.
+5. A fine viaggio, **un solo pagamento batch** restituisce a ciascuno il residuo. Chi è irraggiungibile trova il suo residuo "non riscosso" nella cassa.
+6. **Privacy:** la foto dello scontrino resta sul telefono di chi ha pagato; al gruppo arrivano solo le righe strutturate necessarie. Nessun cloud, nessun server terzo.
 
-### Perché questa versione è diversa dallo "Splitwise con RGB" (idea che il team aveva già scartato)
-L'obiezione precedente era: *"esiste già, e RGB non serve"*. Questa versione prova a rispondere così:
-- **Sconosciuti senza fiducia reciproca** → il valore non è il calcolo, è il *settlement immediato* che evita i crediti inesigibili a fine viaggio.
-- **Persone di paesi diversi senza un sistema di pagamento comune** → un dollaro digitale self-custodial è un denominatore comune che non richiede IBAN, banche compatibili o app nazionali (Satispay, Bizum, Venmo… non si parlano).
-- **Unica unità di conto** → la normalizzazione multi-valuta diventa un problema di conversione al momento della spesa, non di bonifici in valute diverse.
+### Il valore, detto onestamente
+- Il valore è la **certezza di essere rimborsati**, non contante spendibile durante il viaggio: un ristorante in Vietnam non accetta USDT su RGB.
+- Il vero concorrente è la **busta di contanti**, non Splitwise.
+- L'argomento "perché RGB" regge con **gruppi multinazionali senza un sistema di pagamento comune**: dollaro digitale uguale per tutti, nessun IBAN, nessun gas token separato, un'unica transazione witness per pagare tutto il gruppo a fine viaggio. Con un gruppo tutto italiano, Satispay o Revolut bastano.
 
-### Rischi e punti aperti da risolvere (non ancora risolti)
-- **L'obiezione "RGB non serve" non è eliminata, è solo indebolita.** Va dimostrata con un utente specifico: es. "italiana in viaggio in Vietnam con un tedesco, un americano e due argentini". Se il gruppo è tutto italiano, Satispay/Revolut bastano e l'argomento crolla.
-- **Onboarding**: ogni partecipante deve avere un wallet RGB e un canale Lightning con liquidità in entrata per ricevere. In un gruppo di sconosciuti è un attrito enorme. Serve una risposta (es. organizzatore/LSP che apre i canali, o settlement on-chain come fallback).
-- **Tassi di cambio**: un modello locale offline non conosce i tassi. Serve una fonte (tasso inserito/registrato al momento della spesa, tabella scaricata, ecc.) e una regola chiara su quale tasso vale.
-- **Off-ramp**: chi riceve USDT deve poterli convertire o spendere; va almeno citato nel pitch.
-- **Ruolo dell'AI**: deve essere centrale (estrazione, attribuzione delle voci, gestione dei casi ambigui), non un chatbot decorativo.
+### Decisioni prese (15 ottobre)
+| Tema | Decisione |
+|---|---|
+| Custodia della cassa | Coordinatore (nodo RGB `dave`). È custodiale: lo diciamo. Esposizione limitata da D piccolo, ricariche e rimborsi durante il viaggio. Multisig 2-di-3 solo in roadmap (scartata la multisig tra membri: con N-di-N chiunque blocca la cassa, con M-di-N tra sconosciuti la maggioranza può derubare la minoranza; tooling non verificato). |
+| Chi scansiona | Chi ha pagato. |
+| Chi approva | Ogni debitore le proprie righe (contestazione o silenzio-assenso); il coordinatore approva i pagamenti dalla cassa e può solo annullare una spesa contestata. |
+| Quota esaurita | Avviso al 20% residuo. Quota negativa → `TOPUP_REQUIRED`, prelievi bloccati. La parte scoperta non viene rimborsata subito: resta un credito di chi ha pagato. |
+| Liquidità della cassa | Un rimborso non può mai usare soldi che appartengono alle quote positive degli altri: regola deterministica nel ledger. |
+| Registro | Off-chain, append-only, condiviso (SQLite nella demo). Catena di hash come extra; P2P e firme in roadmap. |
+| Tassi di cambio | "Tasso del giorno" del coordinatore (tabella con data e fonte), bloccato al momento dell'approvazione. |
+| Uscita e fuga | Il deposito fa da garanzia: chi sparisce ha già pagato la sua parte con la propria quota. Uscita anticipata come extra. |
+| Consumer o B2B | B2B2C: venduto al tour operator, usato dal coordinatore e dai viaggiatori. |
+| UI | Una sola web app con viste per ruolo (`?as=alice|bob|charlie|dave`); tre finestre a larghezza telefono affiancate sul palco. |
 
-### Scope minimo realistico per la demo (~27 ore di build)
-Un gruppo pre-caricato di 3 persone, 2-3 scontrini di esempio in valute diverse, un flusso: foto → proposta AI → approvazione → saldo in USD → pagamento RGB reale su regtest → saldo aggiornato. Nient'altro.
+### Rischi aperti
+- **On-ramp:** oggi i viaggiatori non hanno USDT su RGB. Risposta nel pitch: acquisto alla prenotazione tramite l'operatore o un partner di emissione. Nella demo i fondi sono pre-caricati.
+- **Regolamentazione UE:** un operatore che custodisce stablecoin per i clienti è un'attività regolata, e USDT non è autorizzato sotto MiCA. Va preparata la risposta; non va messo nelle slide.
+- **Telefono perso = stash perso** senza backup: backup cifrato in roadmap.
+- **Coordinatore disonesto:** stesso rischio della busta di contanti, ma esposizione limitata e tracciata.
+- **OCR:** gli scontrini di prova vanno testati prima. Il vietnamita è in alfabeto latino ma con molti diacritici.
+
+### Scope della demo (~27 ore di build)
+Tre viaggiatori più il coordinatore, depositi reali da 50.00, uno scontrino in VND. Flusso: foto → proposta AI → frase per la divisione → approvazione di Bob → silenzio-assenso di Charlie → Dave approva il rimborso → transfer RGB reale → quote aggiornate e "cassa = saldo del nodo" → chiusura con batch ad Alice e Bob, e il residuo di Charlie (offline) che resta non riscosso. Nient'altro.
 
 ---
 
@@ -95,40 +113,38 @@ Usare **solo RGB Protocol on Bitcoin v0.11.1** (in produzione su mainnet da lugl
 - **Da NON usare**: RGB v0.12 / `rgb.tech` / `github.com/RGB-WG` (riscrittura non finita, incompatibile), RGB++ (Nervos/CKB, altro protocollo).
 - Terminologia corretta: schema **NIA** (Non-Inflatable Asset, fungibile a supply fissa — quello da usare), IFA, CFA, UDA, PFA. Non esistono "RGB20/RGB21/RGB25". Si dice "private contracts", non "smart contracts".
 
-Concetti chiave: single-use seal (lo stato è legato a un UTXO Bitcoin), client-side validation (i dati stanno sui client, on-chain solo un commitment tapret/opret), consignment, stash, invoice con blinded UTXO, witness transaction. Nel trasferimento è il **ricevente** a generare l'invoice per primo; un **RGB proxy server** fa da buca delle lettere per i consignment.
+Concetti chiave: single-use seal (lo stato è legato a un UTXO Bitcoin), client-side validation (i dati stanno sui client, on-chain solo un commitment tapret/opret), consignment, stash, invoice con blinded UTXO, witness transaction. Nel trasferimento è il **ricevente** a generare l'invoice per primo; un **RGB proxy server** fa da buca delle lettere per i consignment. Conseguenza per la cassa: per pagare un viaggiatore serve un'invoice del suo nodo, quindi chi è offline non può ricevere e il suo residuo resta "non riscosso".
 
-Tool principale: **`rgb-lightning-node`** (RLN, `github.com/RGB-Tools/rgb-lightning-node`) — daemon Rust con REST API e Swagger UI, pilotabile da qualsiasi linguaggio. Stack regtest in Docker: bitcoind + electrs + esplora + RGB proxy, più 2-3 nodi RLN. È early alpha. Rete per la demo: **regtest** (transazioni vere su rete locale).
+Tool principale: **`rgb-lightning-node`** (RLN, `github.com/RGB-Tools/rgb-lightning-node`) — daemon Rust con REST API e Swagger UI, pilotabile da qualsiasi linguaggio. Stack regtest in Docker: bitcoind + electrs + esplora + RGB proxy, più **4 nodi RLN** (alice, bob, charlie, dave = cassa). È early alpha. Rete per la demo: **regtest** (transazioni vere su rete locale).
 
 Riferimento di codice: `iris-wallet-desktop` (wallet RGB completo sopra RLN). Libreria wallet: `rgb-lib` (binding Python, Node.js, Kotlin, Swift).
 
 ### QVAC — AI locale (Tether)
-- SDK open-source (Apache 2.0), JS/TS (`@qvac/sdk`) e Python. Richiede **Node ≥ 22.17**.
-- Capability utili per l'idea: **OCR**, **vision**, LLM per **estrazione strutturata in JSON**, traduzione (Bergamot), classificazione, embeddings/RAG.
-- Modelli GGUF (registry QVAC, HuggingFace o file locale). Il primo avvio scarica il modello: va fatto prima dell'evento.
-- `QVAC.md`: file di contesto ufficiale per coding agent, da includere nelle regole dell'agente.
-- Ricette pronte su `qvac.tether.io/recipes`, inclusa l'estrazione strutturata da fatture/scontrini — punto di partenza diretto per l'idea.
-- Con modelli piccoli il JSON va validato (es. zod) con retry e fallback.
+- SDK open-source (Apache 2.0), JS/TS (`@qvac/sdk`) e Python. Richiede **Node ≥ 22.17**. Nel progetto: `@qvac/sdk` ~0.21.0.
+- Capability usate: **OCR**, LLM per **estrazione strutturata in JSON** e per la **divisione da linguaggio naturale**. Eventualmente vision e traduzione (Bergamot).
+- Modelli GGUF già in cache (vedi `docs/STATUS.md`). `QVAC.md`: contesto ufficiale per coding agent.
+- Con modelli piccoli il JSON va validato (zod) con retry e fallback.
 
 ### WDK — wallet self-custodial (Tether, opzionale/bonus)
 - `@tetherto/wdk` + `@tetherto/wdk-wallet-btc` (BIP-84, Electrum, multi-account).
-- Ponte RGB già esistente (Utexo, beta): `@utexo/wdk-wallet-rgb` (chiavi e balance RGB da seed BIP-39) e `@utexo/wdk-rgb-lightning` (canali, invoice, pagamenti RGB-over-LN; superficie `UtexoLsp` con `connect`, `waitForChannel`, `receiveAsset`, `sendAsset`, `payAddress`…), più binding Node nativi `@utexo/rgb-lightning-node-nodejs`. Da testare prima dell'evento; piano B: RLN via REST.
+- Ponte RGB (Utexo, beta): `@utexo/wdk-wallet-rgb` e `@utexo/wdk-rgb-lightning`. Da tentare solo dopo `demo-v1`, con un limite di 3 ore.
 
-### Architettura consigliata
-Tutto TypeScript/Node: UI React + Vite → logica Node 22.17+ con `@qvac/sdk`, `@tetherto/wdk`, `@utexo/wdk-rgb-lightning` → `rgb-lightning-node` + bitcoind + electrs + proxy in Docker su regtest.
+### Architettura
+Tutto TypeScript/Node: UI React + Vite con viste per ruolo → un backend Fastify che orchestra 4 nodi RLN, QVAC in-process, ledger SQLite append-only → `rgb-lightning-node` + bitcoind + electrs + proxy in Docker su regtest. Dettagli in `docs/PROMPT-hackathon.md`.
 
 ### Contesto di mercato (per il pitch)
-Tether ha annunciato USDT su Bitcoin via RGB; Utexo è issuer/distributore di USDT Bitcoin-native. Punti forti per l'idea: pagamenti istantanei via Lightning, privacy migliore, **nessun gas token separato** per le fee.
+Tether ha annunciato USDT su Bitcoin via RGB; Utexo è issuer/distributore di USDT Bitcoin-native. Punti forti per l'idea: nessun gas token separato, un'unica transazione per pagare tutto il gruppo, privacy della client-side validation, Lightning con il coordinatore come hub (roadmap).
 
 ---
 
 ## 4. Vincoli operativi per il weekend
-- Percorso felice unico e blindato; dati demo pre-caricati; script di reset.
+- Percorso felice unico e blindato; dati demo pre-caricati; `pnpm demo:reset`.
 - Tutto offline: modelli scaricati, immagini Docker già pullate, dipendenze installate.
 - Registrare un video della demo funzionante sabato sera come backup.
-- Nel pitch mostrare le transazioni vere (explorer regtest), non lasciarle intuire.
-- Feature freeze domenica mattina presto: il submit è alle **13:00**.
+- Nel pitch mostrare le transazioni vere (esplora REST e "cassa = saldo del nodo"), non lasciarle intuire.
+- Feature freeze domenica alle 11:00; submit entro le **13:00** (obiettivo 12:30).
 
 ---
 
 ## 5. Cosa chiedo all'assistente AI
-Aiutami a: (a) mettere sotto stress l'idea rispetto ai 5 criteri, soprattutto Marketability e "perché serve RGB"; (b) risolvere i punti aperti (onboarding, tassi di cambio, off-ramp); (c) definire lo scope minimo della demo e l'architettura; (d) preparare il pitch per una giuria Tether/Utexo/KaleidoSwap. Sii critico: se l'idea non regge, dimmelo.
+Aiutami a: (a) costruire la demo seguendo `docs/PROMPT-hackathon.md`, una fase alla volta; (b) tenere RGB e QVAC centrali e reali; (c) preparare il pitch per una giuria Tether/Utexo/KaleidoSwap, con risposte oneste ai punti deboli (custodia, on-ramp, regolamentazione). Sii critico: se qualcosa non regge, dimmelo.

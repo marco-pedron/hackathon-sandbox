@@ -14,6 +14,21 @@
 - Travelers: Alice, Bob, Charlie. Coordinator and kitty custodian: Dave. Ids: `alice`, `bob`, `charlie`, `dave`.
 - No other invented names; no real people or real companies in code, UI or demo data.
 
+## Ownership and parallel streams
+Three devs, three Claude Code sessions, one folder owner each. Write only in the folders of your stream; for anything else, describe the change and stop.
+
+| Stream | Owns | Phases | Status file |
+|---|---|---|---|
+| A — Ledger + AI | `packages/ledger`, `apps/server/src/ai`, `infra/fixtures` | 2c, 3, then 5a | `docs/status/ledger-ai.md` |
+| B — RGB + API | `infra/`, `apps/server/src/{rgb,pot,routes,db,ledger}`, `packages/shared` | 0b, 4a, 4b API, then 5c | `docs/status/rgb-api.md` |
+| C — UI | `apps/web` | 4b UI, 7 | `docs/status/ui.md` |
+
+- `packages/shared` is the contract: changes go in a small dedicated PR by stream B, announced to the team.
+- Only stream B runs `infra:reset`, `rgb:seed` and `demo:reset`.
+- Fakes (`FAKE_AI=1` on the server, `VITE_FAKE_API=1` in the web app) are for development only; `demo:reset` refuses to run with them on.
+- Update your own status file, not `docs/STATUS.md`; STATUS is merged at integration checkpoints.
+- Kickoff prompts: `docs/prompts/contract-session.md` (once, together) and `docs/prompts/streams.md` (one per dev).
+
 ## Working agreement with the team
 - Work ONE phase at a time. At the start of each session, state which phase you're on and what the acceptance check is.
 - Before writing code in a new phase: propose a plan (files to create, docs to read, risks) and wait for approval.

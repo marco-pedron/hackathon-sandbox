@@ -9,7 +9,9 @@ export type LedgerErrorCode =
   | 'INVALID_ASSIGNMENT'
   | 'NEGATIVE_AMOUNT'
   | 'EMPTY_ALLOCATION'
-  | 'UNBALANCED_NETS';
+  | 'UNBALANCED_NETS'
+  | 'INVALID_TRIP_CONFIG'
+  | 'POT_NOT_SETTLED';
 
 // Every rule violation in the ledger throws this, with a stable code the API and UI can map.
 export class LedgerError extends Error {

@@ -76,3 +76,38 @@ export const balancedNets = fc
     const last = -head.reduce((a, b) => a + b, 0n);
     return [...head, last].map((netCents, i) => ({ participant: MEMBERS[i] ?? `m${i}`, netCents }));
   });
+
+// A trip at close: balanced nets for 1–6 members and a confirmed deposit per member
+// (0 = no deposit), so some debtors are over their deposit and some are not.
+export const potScenario = balancedNets
+  .filter((nets) => nets.length > 0)
+  .chain((nets) =>
+    fc
+      .array(fc.bigInt({ min: 0n, max: 100_000n }), {
+        minLength: nets.length,
+        maxLength: nets.length,
+      })
+      .map((amounts) => ({
+        config: {
+          tripId: 'vietnam-2026',
+          members: nets.map((n) => n.participant),
+          depositPerMemberCents: 5_000n,
+        },
+        balances: { nets, projectedNets: nets, pending: [] },
+        deposits: amounts.flatMap((amountCents, i) =>
+          amountCents === 0n
+            ? []
+            : [
+                {
+                  id: `d${i}`,
+                  tripId: 'vietnam-2026',
+                  member: nets[i]?.participant ?? '',
+                  amountCents,
+                  status: 'confirmed' as const,
+                  ref: 'c0ffee01',
+                  createdAt: '2026-10-17T19:30:00.000Z',
+                },
+              ],
+        ),
+      })),
+  );

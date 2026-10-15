@@ -111,3 +111,25 @@ export const SettlementSchema = z.object({
   createdAt: z.iso.datetime(),
 });
 export type Settlement = z.infer<typeof SettlementSchema>;
+
+// The group deposit pot: every member deposits `depositPerMemberCents` (D) at trip start.
+// The payout threshold is derived from `members` (floor(n/2) + 1), never stored.
+export const TripConfigSchema = z.object({
+  tripId: z.string().min(1),
+  members: z.array(MemberIdSchema).min(1),
+  depositPerMemberCents: PositiveMinorAmountSchema,
+});
+export type TripConfig = z.infer<typeof TripConfigSchema>;
+
+// A deposit into the pot, linked to an RGB transfer by `ref`. Custody, not an expense:
+// it never changes nets. Only `confirmed` deposits count.
+export const DepositSchema = z.object({
+  id: z.string().min(1),
+  tripId: z.string().min(1),
+  member: MemberIdSchema,
+  amountCents: PositiveMinorAmountSchema,
+  status: z.enum(['pending', 'confirmed', 'failed']),
+  ref: z.string().nullable(),
+  createdAt: z.iso.datetime(),
+});
+export type Deposit = z.infer<typeof DepositSchema>;

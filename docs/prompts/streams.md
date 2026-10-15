@@ -4,7 +4,7 @@
 
 ## Dev A — Ledger + AI
 You are on the **Ledger + AI** stream. You write only in `packages/ledger`, `apps/server/src/ai` and `infra/fixtures`. Everything else, including `packages/shared`, is read-only: if you need a contract change, describe it and stop.
-Start with Phase 2c of `docs/PROMPT-hackathon.md`: the stubs in `packages/ledger/src/kitty.ts` and the `it.todo` list in `packages/ledger/test/kitty.test.ts` are your checklist. Propose the plan and wait for approval. Branch `phase-2c-kitty`.
+Start with Phase 2c of `docs/PROMPT-hackathon.md`: the stubs in `packages/ledger/src/kitty.ts` and the `it.todo` list in `packages/ledger/src/kitty.test.ts` are your checklist. Propose the plan and wait for approval. Branch `phase-2c-kitty`.
 Then Phase 3: implement `AiService` from `apps/server/src/ai/types.ts` (branch `phase-3-ai`).
 Write your progress in `docs/status/ledger-ai.md`, never in `docs/STATUS.md`.
 

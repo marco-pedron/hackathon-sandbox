@@ -51,4 +51,19 @@ export {
   type Payout,
   type PotClosing,
 } from './pot.js';
+export {
+  closePotWithPayouts,
+  isExpenseApproved,
+  lineStatus,
+  lowQuota,
+  potCash,
+  quota,
+  reimbursable,
+  unpaidCredit,
+  voidExpense,
+  type ApprovalClock,
+  type KittyClosing,
+  type KittyMemberAmount,
+  type KittyState,
+} from './kitty.js';
 export { simplify, type Transfer } from './simplify.js';

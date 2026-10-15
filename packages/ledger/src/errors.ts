@@ -11,7 +11,11 @@ export type LedgerErrorCode =
   | 'EMPTY_ALLOCATION'
   | 'UNBALANCED_NETS'
   | 'INVALID_TRIP_CONFIG'
-  | 'POT_NOT_SETTLED';
+  | 'POT_NOT_SETTLED'
+  | 'TOPUP_REQUIRED'
+  | 'NOT_REIMBURSABLE'
+  | 'EXPENSE_CONTESTED'
+  | 'NOT_IMPLEMENTED';
 
 // Every rule violation in the ledger throws this, with a stable code the API and UI can map.
 export class LedgerError extends Error {

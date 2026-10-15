@@ -14,10 +14,23 @@ describe('loadConfig', () => {
   });
 
   it('treats empty secrets as unset and parses RGB_AUTO_MINE', () => {
-    const c = loadConfig({ RLN_BOB_PASSWORD: '', RLN_BOB_MNEMONIC: 'a b c', RGB_AUTO_MINE: 'false' });
+    const c = loadConfig({
+      RLN_BOB_PASSWORD: '',
+      RLN_BOB_MNEMONIC: 'a b c',
+      RGB_AUTO_MINE: 'false',
+    });
     expect(c.RLN_BOB_PASSWORD).toBeUndefined();
     expect(c.RLN_BOB_MNEMONIC).toBe('a b c');
     expect(c.RGB_AUTO_MINE).toBe(false);
     expect(c.RGB_PROXY_ENDPOINT).toBe('rpc://proxy:3000/json-rpc');
+  });
+
+  it('kitty defaults and FAKE_AI', () => {
+    const c = loadConfig({});
+    expect(c.POT_DEPOSIT_CENTS).toBe(5000n);
+    expect(c.SILENT_ASSENT_SECONDS).toBe(20);
+    expect(c.FAKE_AI).toBe(false);
+    expect(loadConfig({ FAKE_AI: '1' }).FAKE_AI).toBe(true);
+    expect(() => loadConfig({ FAKE_AI: 'yes' })).toThrow();
   });
 });

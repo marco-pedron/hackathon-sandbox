@@ -32,6 +32,14 @@ const EnvSchema = z.object({
 
   DEMO_ASSET_TICKER: z.string().min(1).default('DUSD'),
   DEMO_ASSET_NAME: z.string().min(1).default('Demo Digital Dollar'),
+  // Kitty (PROMPT §2): D in USD cents, and the silent-assent window for expense lines.
+  POT_DEPOSIT_CENTS: z.coerce.bigint().positive().default(5000n),
+  SILENT_ASSENT_SECONDS: z.coerce.number().int().positive().default(20),
+  // DEV ONLY: serve dev-fakes/fake-ai.ts instead of QVAC. demo:reset refuses to run with it.
+  FAKE_AI: z
+    .enum(['0', '1'])
+    .default('0')
+    .transform((v) => v === '1'),
   RGB_AUTO_MINE: z
     .enum(['true', 'false'])
     .default('true')

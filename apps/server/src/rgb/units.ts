@@ -1,13 +1,5 @@
-// The demo NIA asset has precision 2: 100 units = 1.00 USD, so USD cents ↔ asset units is 1:1.
-export const ASSET_PRECISION = 2;
-
-export function usdCentsToAssetUnits(cents: bigint): bigint {
-  return cents;
-}
-
-export function assetUnitsToUsdCents(units: bigint): bigint {
-  return units;
-}
+// The USD cents ↔ NIA asset units rule lives in the ledger (one place).
+export { ASSET_PRECISION, assetUnitsToUsdCents, usdCentsToAssetUnits } from '@settleup/ledger';
 
 // The RLN API carries amounts as JSON integers (JS number); the domain uses bigint.
 export function toApiAmount(units: bigint): number {

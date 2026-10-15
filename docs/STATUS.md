@@ -1,5 +1,54 @@
 # STATUS
 
+## Phase 2 — Domain logic: ✅ done (2026-10-14)
+
+Acceptance verified: `pnpm test` → 98 tests green; `pnpm test:cov` → ledger 100% statements, 98% branches (threshold 90/90); `pnpm typecheck` and `pnpm lint` green.
+
+### What works
+- `packages/ledger` (`@settleup/ledger`): pure TypeScript, no I/O. FX, expense split, balances, settlement plan, USD → asset units. Errors are `LedgerError` with a stable `code` (`UNKNOWN_CURRENCY`, `MISSING_RATE`, `INVALID_RATE`, `TOTAL_MISMATCH`, `INVALID_ASSIGNMENT`, `UNKNOWN_PARTICIPANT`, `DUPLICATE_PARTICIPANT`, `NEGATIVE_AMOUNT`, `EMPTY_ALLOCATION`, `UNBALANCED_NETS`, `INVALID_RATE_TABLE`) for the API to map to messages.
+- Zod schemas `Expense`, `ExpenseDraft`, `LockedRate`, `Settlement`, `RateTable` live in `packages/shared/src/ledger.ts` (exported by `@settleup/shared`, re-exported by `@settleup/ledger`). Amounts are `z.bigint()`: JSON transport needs a string codec at the API layer (Phase 4).
+- Public functions: `parseRateTable`, `lockRate`, `manualRate`, `convertToUsdCents`, `splitOriginal`, `allocateExpense`, `approveExpense`, `computeBalances`, `simplify`, `usdCentsToAssetUnits` (+ `allocateByWeight`, `splitEqually`, `parseDecimal`, `divRoundHalfUp`, `formatMoney`).
+- `infra/rates.json`: static demo snapshot, base USD, `asOf` 2026-10-16. **The values are plausible, not live market data**; the `source` field says so.
+- `apps/server/src/rgb/units.ts` now re-exports the asset-unit rule from the ledger.
+
+### The money rules, in plain words (pitch material)
+- **No floating point, ever.** Every amount is a whole number of the currency's smallest unit: cents for USD/EUR/GBP/CHF, whole dong for VND, whole yen for JPY. One table holds these. An unknown currency is an error, never a guess. A lint rule (with a test proving it fires) blocks `number` amounts, `Math.*`, `parseFloat` and float literals in money code.
+- **Exchange rates are exact.** Rates are written as text ("26350", "0.86"), meaning "units of that currency per 1 US dollar", and read as exact fractions. Rounding happens in one place only: round half up to the nearest cent.
+- **The rate is locked when the expense is approved.** The expense stores the rate, its date, where it came from (`table` or `manual` override) and when it was locked, plus the computed shares. Nothing is ever recomputed with a newer rate.
+- **How a bill is split, in this order:**
+  1. In the receipt's own currency, each item is divided equally among the people who had it. An item nobody is tagged on is shared by everyone at the table.
+  2. Tax, service and tip, as one pool, are divided in proportion to what each person ate. If nobody ate anything with a price, they are divided equally.
+  3. The receipt total is converted to US cents **once**, with the locked rate.
+  4. Those cents are divided in proportion to each person's share from steps 1–2.
+  5. Any leftover cent from a division goes to whoever lost the most to rounding ("largest remainder"). Ties go to the participant id first in alphabetical order. Shares always add up to the total exactly, never one cent more or less.
+- **The receipt must add up.** Approval is refused when the total is not exactly items + tax + service + tip. The user fixes it; the ledger never absorbs a difference silently.
+- **Balances.** For each person: what they paid minus what they owe, in US cents. A settlement counts only once its RGB transfer is confirmed. Pending settlements are listed separately and leave the balance alone. The balances of the group always add up to zero.
+- **Settlement plan.** The person who owes the most pays the person owed the most, as much as possible; repeat. A group of n people with open balances needs at most n − 1 payments. This is a fast greedy method, not always the theoretical minimum. The plan is computed as if pending payments had already landed (`projectedNets`), so a payment in flight is never suggested twice.
+- **Digital dollars.** The demo NIA asset has precision 2, so 1 US cent = 1 asset unit. One function does this.
+
+### Tests
+- Hand-computed examples: the demo dinner (VND, pho alice+bob, beers charlie, water three ways, tip → 9.68 USD: alice 3.09, bob 3.09, charlie 3.50), EUR taxi, USD supermarket with tax, manual rate, 3- and 5-person balances and plans, already-settled trip, pending vs confirmed vs failed.
+- Rounding: 100 cents / 3, 1 VND / 3, a 1-unit tip across 2 people (unequal and equal subtotals), half-up at, below and above .5.
+- Errors: unknown currency, missing rate, bad rate strings, total mismatch, non-member, duplicates, negatives, self-payment.
+- fast-check properties: USD shares sum to the converted total; nets sum to 0; applying the plan zeroes every net; at most n − 1 transfers; output independent of input order.
+- Type tests: every amount type is `bigint`.
+
+### How to run
+```sh
+pnpm test        # all workspaces
+pnpm test:cov    # with coverage; fails below 90% statements/branches on packages/ledger
+pnpm typecheck && pnpm lint
+```
+
+### Known issues / decisions for Phase 4
+- bigint amounts need a string codec in the HTTP schemas (zod 4.6 has `z.codec`).
+- The settle button should use `projectedNets` (or hide pairs with a pending settlement) so nobody pays twice.
+- Manual rates use the same direction as the table (units per 1 USD, e.g. "0.86" for EUR). The UI must label this clearly.
+- `prettier --check .` reports 20 files formatted before this phase (none from Phase 2).
+
+### Next step
+Phase 3 — AI pipeline: receipt extraction and natural-language split with QVAC, zod-validated with retries.
+
 ## Phase 1 — RGB core on regtest: ✅ done (2026-10-14)
 
 Acceptance verified from a cold `pnpm infra:reset`: `pnpm rgb:seed` → `pnpm rgb:seed` (rerun) → `pnpm rgb:e2e`. Bob → alice 5.00 USD: bob 500.00 → 495.00, alice 9,000.00 → 9,005.00, witness tx `b731fa23…246a` confirmed at height 108 on esplora REST, about 6 s end to end.

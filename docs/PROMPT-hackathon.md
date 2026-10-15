@@ -102,14 +102,15 @@ Decisions (do not revisit unless blocked):
 - Deposits are custody, not expenses: they never change nets. Only confirmed deposits count.
 - exposure(member): debt = max(0, −net); `warn` at ≥ 80% of the member's deposit, `over` when debt > deposit.
 - closePot(nets, deposits): payout = deposit + net for each member. If a debtor's debt exceeds their deposit, their payout is 0 and the excess is **uncovered**, charged to creditors pro-rata (largest remainder, ties by member id). Invariant: sum(payouts) == pot total exactly; no negative payout.
-- Pending settlements are ignored, same as simplify().
+- Closing is **refused while any settlement or deposit is pending** (`POT_NOT_SETTLED`): a payment confirming after the payout would make someone pay twice. Phase 4 must offer a way to mark a stuck transfer as failed (e.g. after the existing 90 s timeout), or a trip could never close.
+- Exposure warnings use confirmed balances only: a payment in flight clears a warning only once it confirms.
 
 **Custody (decided by a time-boxed spike, `spikes/multisig/`):**
 - Target (C): a 2-of-3 RGB multisig wallet via rgb-lib `MultisigWallet` + `rgb-multisig-hub` (docs: `github.com/RGB-Tools/rgb-lib/blob/master/docs/multisig.md`). Receiving into the pot is auto-approved; the payout needs threshold approvals; only one pending operation at a time, so the pot is touched only twice (fund, close), never per expense.
 - Fallback (B): the pot is a 4th RLN node, **dave** (the trip coordinator, port 3004). Custodial: say so in the README and pitch.
 - Do not build either custody in product code until the spike reports. Never invent multisig APIs: use only what rgb-lib docs and bindings show.
 
-**Honest limits (README + pitch):** the pot covers at most D per member; a majority of signers could collude against a minority (the ledger is transparent, so abuse is visible).
+**Honest limits (README + pitch):** the pot covers at most D per member; a majority of signers could collude against a minority (the ledger is transparent, so abuse is visible); enough absent members can block the payout (with 3 members, 2 absent; with 2 members, 1 absent).
 
 ## 4. AI layer (QVAC, on-device) — the AI must be central, not decorative
 

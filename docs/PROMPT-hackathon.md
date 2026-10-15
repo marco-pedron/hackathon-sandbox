@@ -189,7 +189,7 @@ Required UX:
 
 ### Phase 0b — Coordinator node in the stack
 - Add `rln-dave` (port 3004, same image `settleup/rln:d4762ac`) to `infra/docker-compose.yml`, `check.sh` and the stack scripts. Add `RLN_DAVE_*` to `.env.example`.
-- Measure memory with 4 RLN nodes plus the stack (`docker stats --no-stream`). If the total is above ~3.5 GB of Docker's 4 GB, raise the Docker Desktop memory limit or move the stack to the Linux laptop.
+- Measure memory with 4 RLN nodes plus the stack (`docker stats --no-stream`). If the total is above ~3.5 GB of Docker's 4 GB, raise the Docker Desktop memory limit, or run the Docker stack on a second MacBook and point the `RLN_*_URL` / `ESPLORA_URL` env vars at it over the LAN.
 - Do **not** add dave to the seed: that is an RGB flow (Phase 4a).
 - ✅ Check: a cold `pnpm infra:reset` brings up 4 nodes; `pnpm infra:check` passes (dave answering `LockedNode` is fine); the memory figure is recorded in STATUS. **Commit.**
 

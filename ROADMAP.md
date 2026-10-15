@@ -63,7 +63,7 @@ Chi ha scritto il ledger fa la 2c, qualunque sia il suo ruolo.
 ## Rischi principali e piano B
 | Rischio | Segnale | Piano B |
 |---|---|---|
-| RAM con 4 nodi | OOM in Docker, nodi che si riavviano | Stack sul laptop Linux, backend + QVAC sul MacBook (già supportato dalle env var) |
+| RAM con 4 nodi | OOM in Docker, nodi che si riavviano | Alzare il limite di memoria di Docker Desktop; altrimenti stack Docker sul MacBook di un compagno e backend + QVAC sul MacBook della demo (già supportato dalle env var) |
 | OCR scarso sullo scontrino VND | `ai:eval` sotto soglia | Modello vision documentato in QVAC.md, poi form manuale pre-compilato; in demo uno scontrino con stampa nitida |
 | Batch send con dave instabile | `pot:e2e` rosso | Pagamenti singoli in sequenza |
 | Nodo che si blocca durante il pitch | transfer pending > 90 s | `demo:reset` tra un run e l'altro; video di backup |

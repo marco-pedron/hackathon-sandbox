@@ -96,6 +96,15 @@ services:
     volumes:
       - rln-charlie:/RLNdata
 
+  rln-dave:
+    <<: *rln
+    command: ["/RLNdata", "--daemon-listening-port", "3004", "--ldk-peer-listening-port", "9738", "--network", "regtest", "--disable-authentication"]
+    ports:
+      - 3004:3004
+      - 9738:9738
+    volumes:
+      - rln-dave:/RLNdata
+
 volumes:
   bitcoind:
   electrs:
@@ -103,3 +112,4 @@ volumes:
   rln-alice:
   rln-bob:
   rln-charlie:
+  rln-dave:

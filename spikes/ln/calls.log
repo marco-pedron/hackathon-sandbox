@@ -1,0 +1,952 @@
+### 10:18:41 dave /init
+REQ {"password":"<redacted>"}
+RES {"mnemonic":"<redacted>"}
+
+### 10:18:53 dave /unlock
+REQ {"password":"<redacted>","ldk_chain_sync":{"mode":"BlockSync","config":{"bitcoind_rpc_username":"user","bitcoind_rpc_password":"password","bitcoind_rpc_host":"bitcoind","bitcoind_rpc_port":18443}},"indexer_url":"electrs:50001","announce_addresses":[],"announce_alias":"dave"}
+RES {}
+
+### 10:18:53 dave /address
+REQ {}
+RES {"address":"bcrt1p77wsdf45k9z69tqwhatnkv7qmcrwf4ack74ax6h3p08mue4cqhfsvp9e3r"}
+
+### 10:19:02 alice /btcbalance
+REQ {"skip_sync":false}
+RES {"vanilla":{"settled":99612306,"future":99612306,"spendable":99612306},"colored":{"settled":382167,"future":382167,"spendable":382167}}
+
+### 10:19:02 bob /btcbalance
+REQ {"skip_sync":false}
+RES {"vanilla":{"settled":99644521,"future":99644521,"spendable":99644521},"colored":{"settled":351228,"future":351228,"spendable":351228}}
+
+### 10:19:02 charlie /btcbalance
+REQ {"skip_sync":false}
+RES {"vanilla":{"settled":99644521,"future":99644521,"spendable":99644521},"colored":{"settled":352000,"future":352000,"spendable":352000}}
+
+### 10:19:02 dave /btcbalance
+REQ {"skip_sync":false}
+RES {"vanilla":{"settled":200000000,"future":200000000,"spendable":200000000},"colored":{"settled":0,"future":0,"spendable":0}}
+
+### 10:19:02 alice /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":850500,"future":850500,"spendable":850500,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:19:02 bob /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":99500,"future":99500,"spendable":99500,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:19:02 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":50000,"future":50000,"spendable":50000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:19:19 dave /createutxos
+REQ {"up_to":true,"num":10,"size":null,"fee_rate":5,"skip_sync":false}
+RES {}
+
+### 10:19:22 dave /rgbinvoice
+REQ {"min_confirmations":1,"asset_id":null,"assignment":{"type":"Fungible","value":100000},"witness":false,"expiration_timestamp":1792142359,"transport_endpoints":["rpc://proxy:3000/json-rpc"]}
+RES {"recipient_id":"bcrt:utxob:sJ6DYe~P-2uYBaXt-JdWQzhz-DGCsa2b-kPMmhw0-TqCMEKs-L_fkQ","invoice":"rgb:~/~/Mcdac/bcrt:utxob:sJ6DYe~P-2uYBaXt-JdWQzhz-DGCsa2b-kPMmhw0-TqCMEKs-L_fkQ?assignment_name=assetOwner&expiry=1792142359&endpoints=rpc://proxy:3000/json-rpc","expiration_timestamp":1792142359,"batch_transfer_idx":1}
+
+### 10:19:22 alice /sendrgb
+REQ {"donation":true,"fee_rate":5,"min_confirmations":1,"expiration_timestamp":1792142359,"recipient_map":{"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U":[{"recipient_id":"bcrt:utxob:sJ6DYe~P-2uYBaXt-JdWQzhz-DGCsa2b-kPMmhw0-TqCMEKs-L_fkQ","assignment":{"type":"Fungible","value":100000},"transport_endpoints":["rpc://proxy:3000/json-rpc"]}]}}
+RES {"txid":"78770a89a611322de3bd3e510b4b0e4af044807df1613bbe43b5001a257e6f64"}
+
+### 10:19:25 dave /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{"1":{"updated_status":"WaitingConfirmations","failure":null}}}
+
+### 10:19:25 alice /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{"5":{"updated_status":"Settled","failure":null}}}
+
+### 10:19:28 dave /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{"1":{"updated_status":"Settled","failure":null}}}
+
+### 10:19:28 alice /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:19:30 dave /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:19:30 alice /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:19:32 dave /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":100000,"future":100000,"spendable":100000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:19:37 dave /nodeinfo
+REQ 
+RES {"pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","num_channels":0,"num_usable_channels":0,"local_balance_sat":0,"eventual_close_fees_sat":0,"pending_outbound_payments_sat":0,"num_peers":0,"account_xpub_vanilla":"tpubDCZdcM6zrVekk2TDynqW81SDDXntkNPS55zQknKy664NPgHM7GoWtMXCMKau3PA3oCJsBDryUBdq6gC5mpBgcsqvi9mgdztVJjeNRZSrJXQ","account_xpub_colored":"tpubDDKDMeh3v8F3Fd6b6wtC191SL4ZvPNHqhVRAU3SHaiaX26QsY7CSfAgPgFZ6pPUgM5W35jFk8Y37Vx2c79RrSvbkakAdEpb7rJc7Ui13z8M","max_media_upload_size_mb":5,"rgb_htlc_min_msat":3000000,"rgb_channel_capacity_min_sat":30010,"channel_capacity_min_sat":5506,"channel_capacity_max_sat":16777215,"channel_asset_min_amount":1,"channel_asset_max_amount":18446744073709551615,"network_nodes":0,"network_channels":0}
+
+### 10:19:37 alice /connectpeer
+REQ {"peer_pubkey_and_addr":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a@rln-dave:9738"}
+RES {}
+
+### 10:19:37 bob /connectpeer
+REQ {"peer_pubkey_and_addr":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a@rln-dave:9738"}
+RES {}
+
+### 10:19:37 charlie /connectpeer
+REQ {"peer_pubkey_and_addr":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a@rln-dave:9738"}
+RES {}
+
+### 10:19:37 dave /listpeers
+REQ 
+RES {"peers":[{"pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4"},{"pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194"},{"pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b"}]}
+
+### 10:19:43 alice /openchannel
+REQ {"peer_pubkey_and_opt_addr":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a@rln-dave:9738","capacity_sat":100000,"push_msat":0,"asset_amount":5000,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","public":true,"with_anchors":true,"fee_base_msat":0,"fee_proportional_millionths":0}
+RES {"temporary_channel_id":"ccbd2999fc5480351c395fbe69fcb2127d9ee3c17333b6e7ad6c8746c0a5b2cc"}
+
+### 10:19:48 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":null,"status":"Opening","ready":false,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":false,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0}]}
+
+### 10:19:58 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":147334558187521,"status":"Opening","ready":false,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":false,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0}]}
+
+### 10:20:03 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":147334558187521,"status":"Opening","ready":false,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":false,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0}]}
+
+### 10:20:07 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":147334558187521,"status":"Opening","ready":false,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":false,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0}]}
+
+### 10:20:12 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":147334558187521,"status":"Opening","ready":false,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":false,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0}]}
+
+### 10:20:16 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":147334558187521,"status":"Opening","ready":false,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":false,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0}]}
+
+### 10:20:20 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0}]}
+
+### 10:20:20 dave /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":5000}]}
+
+### 10:20:27 dave /openchannel
+REQ {"peer_pubkey_and_opt_addr":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194@rln-alice:9735","capacity_sat":100000,"push_msat":0,"asset_amount":3000,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","public":true,"with_anchors":true,"fee_base_msat":0,"fee_proportional_millionths":0}
+RES {"temporary_channel_id":"8c3006752a63b472a85c931362e96e287aed20aaae00eec9df9c554138be0a01"}
+
+### 10:20:32 dave /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":5000},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":null,"status":"Opening","ready":false,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":false,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":3000,"asset_remote_amount":0}]}
+
+### 10:20:39 dave /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":5000},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":153931627954177,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":3000,"asset_remote_amount":0}]}
+
+### 10:20:39 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":153931627954177,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":3000}]}
+
+### 10:20:46 bob /openchannel
+REQ {"peer_pubkey_and_opt_addr":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a@rln-dave:9738","capacity_sat":100000,"push_msat":0,"asset_amount":5000,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","public":true,"with_anchors":true,"fee_base_msat":0,"fee_proportional_millionths":0}
+RES {"temporary_channel_id":"c9a952f96ac376ff6a1b61e60ea5c92b325abbcbd9fe28738d2cdbc7a248e35e"}
+
+### 10:20:49 dave /openchannel
+REQ {"peer_pubkey_and_opt_addr":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4@rln-bob:9736","capacity_sat":100000,"push_msat":0,"asset_amount":3000,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","public":true,"with_anchors":true,"fee_base_msat":0,"fee_proportional_millionths":0}
+RES {"temporary_channel_id":"d4c9f3dc26a398821976129f4821a8149b7cafc40a7c71b8e2234417edf8f2db"}
+
+### 10:21:02 bob /listchannels
+REQ 
+RES {"channels":[{"channel_id":"31187935764ea93e1e172f577a8e9a863dc76611ca44ee561241a310398500cc","funding_txid":"cd00853910a3411256ee44ca1166c73d869a8e7a572f171e3ea94e7635791831","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":160528697720833,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0},{"channel_id":"dacba0447a800b6b59ba45491fed2fd9a26e9180c2b578524b3d314077a3ffc3","funding_txid":"c2ffa37740313d4b5278b5c280916ea2d92fed1f4945ba596b0b807a44a0cbda","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":160528697786369,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":3000}]}
+
+### 10:21:02 dave /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":5000},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":153931627954177,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":3000,"asset_remote_amount":0},{"channel_id":"31187935764ea93e1e172f577a8e9a863dc76611ca44ee561241a310398500cc","funding_txid":"cd00853910a3411256ee44ca1166c73d869a8e7a572f171e3ea94e7635791831","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697720833,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":5000},{"channel_id":"dacba0447a800b6b59ba45491fed2fd9a26e9180c2b578524b3d314077a3ffc3","funding_txid":"c2ffa37740313d4b5278b5c280916ea2d92fed1f4945ba596b0b807a44a0cbda","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697786369,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":3000,"asset_remote_amount":0}]}
+
+### 10:22:28 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":153931627954177,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":3000}]}
+
+### 10:22:28 dave /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":5000},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":153931627954177,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":3000,"asset_remote_amount":0},{"channel_id":"31187935764ea93e1e172f577a8e9a863dc76611ca44ee561241a310398500cc","funding_txid":"cd00853910a3411256ee44ca1166c73d869a8e7a572f171e3ea94e7635791831","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697720833,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":5000},{"channel_id":"dacba0447a800b6b59ba45491fed2fd9a26e9180c2b578524b3d314077a3ffc3","funding_txid":"c2ffa37740313d4b5278b5c280916ea2d92fed1f4945ba596b0b807a44a0cbda","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697786369,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":3000,"asset_remote_amount":0}]}
+
+### 10:22:28 bob /listchannels
+REQ 
+RES {"channels":[{"channel_id":"31187935764ea93e1e172f577a8e9a863dc76611ca44ee561241a310398500cc","funding_txid":"cd00853910a3411256ee44ca1166c73d869a8e7a572f171e3ea94e7635791831","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":160528697720833,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0},{"channel_id":"dacba0447a800b6b59ba45491fed2fd9a26e9180c2b578524b3d314077a3ffc3","funding_txid":"c2ffa37740313d4b5278b5c280916ea2d92fed1f4945ba596b0b807a44a0cbda","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":160528697786369,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":3000}]}
+
+### 10:22:28 bob /lninvoice
+REQ {"amt_msat":3000000,"expiry_sec":3600,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":309,"description":"kitty:test:1:alice"}
+RES {"invoice":"lnbcrt30u1p4drhkydqadd5hgare8f6x2um58gcn5ctvd93k2np4qw20jfnr7sfv9fpeth8zce0pnry6rvuz9eqvatecyzreymt4fhrvgpp5xevanwss4fm2nc952346sfjm9cwtqn42hwaz3nz4lfd5jqgrfrcssp56dhy5wvjcrmp7rjdp7dpwt9qt8f4hzuarunztn32l09jqr6t6w7q9qyysgqcqzp2xqrrsslp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qzf4rzjqwpm4dmz9njecdedx6flqqhh7gel258y5qwsm6eue6yuqvvped355qqqqyqqdrqqquqqqqqqqqqqqqqqfqsauxcyhp4khaddadfg6rvee0lfdfx6rtcnlxea8g9g4j2vtrnafqsum9kxxy5433zyvjchp85wzjcnzftyah0r6h5cvnctnqgs9m2psp9wmjkv"}
+
+### 10:22:28 alice /sendpayment
+REQ {"invoice":"lnbcrt30u1p4drhkydqadd5hgare8f6x2um58gcn5ctvd93k2np4qw20jfnr7sfv9fpeth8zce0pnry6rvuz9eqvatecyzreymt4fhrvgpp5xevanwss4fm2nc952346sfjm9cwtqn42hwaz3nz4lfd5jqgrfrcssp56dhy5wvjcrmp7rjdp7dpwt9qt8f4hzuarunztn32l09jqr6t6w7q9qyysgqcqzp2xqrrsslp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qzf4rzjqwpm4dmz9njecdedx6flqqhh7gel258y5qwsm6eue6yuqvvped355qqqqyqqdrqqquqqqqqqqqqqqqqqfqsauxcyhp4khaddadfg6rvee0lfdfx6rtcnlxea8g9g4j2vtrnafqsum9kxxy5433zyvjchp85wzjcnzftyah0r6h5cvnctnqgs9m2psp9wmjkv"}
+RES {"payment_id":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","payment_secret":"d36e4a3992c0f61f0e4d0f9a172ca059d35b8b9d1f2625ce2afbcb200f4bd3bc","status":"Pending"}
+
+### 10:22:28 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:29 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:29 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:29 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:30 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:30 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:30 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:30 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:31 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:31 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Pending","created_at":1792138948,"updated_at":1792138948,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:31 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Succeeded","created_at":1792138948,"updated_at":1792138951,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":"c9c42055033752312726182c9d8ffaaba3bd68015bede17518803c63c487269b","description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:31 alice /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Succeeded","created_at":1792138948,"updated_at":1792138951,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":"c9c42055033752312726182c9d8ffaaba3bd68015bede17518803c63c487269b","description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:31 bob /getpayment
+REQ {"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":true,"status":"Succeeded","created_at":1792138948,"updated_at":1792138950,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":"c9c42055033752312726182c9d8ffaaba3bd68015bede17518803c63c487269b","description":"kitty:test:1:alice","description_hash":null}}
+
+### 10:22:31 alice /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":4691,"asset_remote_amount":309},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":153931627954177,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":3000}]}
+
+### 10:22:31 dave /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":309,"asset_remote_amount":4691},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":153931627954177,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":3000,"asset_remote_amount":0},{"channel_id":"31187935764ea93e1e172f577a8e9a863dc76611ca44ee561241a310398500cc","funding_txid":"cd00853910a3411256ee44ca1166c73d869a8e7a572f171e3ea94e7635791831","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697720833,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":5000},{"channel_id":"dacba0447a800b6b59ba45491fed2fd9a26e9180c2b578524b3d314077a3ffc3","funding_txid":"c2ffa37740313d4b5278b5c280916ea2d92fed1f4945ba596b0b807a44a0cbda","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697786369,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":2691,"asset_remote_amount":309}]}
+
+### 10:22:32 bob /listchannels
+REQ 
+RES {"channels":[{"channel_id":"31187935764ea93e1e172f577a8e9a863dc76611ca44ee561241a310398500cc","funding_txid":"cd00853910a3411256ee44ca1166c73d869a8e7a572f171e3ea94e7635791831","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":160528697720833,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0},{"channel_id":"dacba0447a800b6b59ba45491fed2fd9a26e9180c2b578524b3d314077a3ffc3","funding_txid":"c2ffa37740313d4b5278b5c280916ea2d92fed1f4945ba596b0b807a44a0cbda","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":160528697786369,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":309,"asset_remote_amount":2691}]}
+
+### 10:23:09 alice /decodelninvoice
+REQ {"invoice":"lnbcrt30u1p4drhkydqadd5hgare8f6x2um58gcn5ctvd93k2np4qw20jfnr7sfv9fpeth8zce0pnry6rvuz9eqvatecyzreymt4fhrvgpp5xevanwss4fm2nc952346sfjm9cwtqn42hwaz3nz4lfd5jqgrfrcssp56dhy5wvjcrmp7rjdp7dpwt9qt8f4hzuarunztn32l09jqr6t6w7q9qyysgqcqzp2xqrrsslp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qzf4rzjqwpm4dmz9njecdedx6flqqhh7gel258y5qwsm6eue6yuqvvped355qqqqyqqdrqqquqqqqqqqqqqqqqqfqsauxcyhp4khaddadfg6rvee0lfdfx6rtcnlxea8g9g4j2vtrnafqsum9kxxy5433zyvjchp85wzjcnzftyah0r6h5cvnctnqgs9m2psp9wmjkv"}
+RES {"amt_msat":3000000,"expiry_sec":3600,"timestamp":1792138948,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":309,"description":"kitty:test:1:alice","description_hash":null,"payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","payment_secret":"d36e4a3992c0f61f0e4d0f9a172ca059d35b8b9d1f2625ce2afbcb200f4bd3bc","payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","network":"Regtest"}
+
+### 10:23:09 bob /nodeinfo
+REQ 
+RES {"pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","num_channels":2,"num_usable_channels":2,"local_balance_sat":102013,"eventual_close_fees_sat":657,"pending_outbound_payments_sat":0,"num_peers":1,"account_xpub_vanilla":"tpubDCsG7BYEEHePYWbLUyJ3K7gksviZGkmFcTh3vQpXmUxVuEJmU7ttrUvYFn9mjCWssV7Uv7JYdDqEQHeZvp4gq45NtBaHTUGYhiJSbFBcgEf","account_xpub_colored":"tpubDDQofiNY1xuwFxd8e2iehhcZuxD1gVDSawZ9dhF1N7dBFyJMxWUDGnWC2HGY4HsDaes8opwZW1Ru1HySWExa4vvqkywixpzdCwr92rsQkGP","max_media_upload_size_mb":5,"rgb_htlc_min_msat":3000000,"rgb_channel_capacity_min_sat":30010,"channel_capacity_min_sat":5506,"channel_capacity_max_sat":16777215,"channel_asset_min_amount":1,"channel_asset_max_amount":18446744073709551615,"network_nodes":3,"network_channels":4}
+
+### 10:23:12 alice /signmessage
+REQ {"message":"kitty spike test 1"}
+RES {"signed_message":"rdpwjyz1oz4qzftq9pkdyfe8t1yproqpen8um5g7da7iws3epjy8wbwpnqhnx9z9r6fgrz4gy9mha7ak7iocu96xsmgq8sz6es361rcw"}
+
+### 10:25:11 alice /signmessage
+REQ {"message":"kitty spike test 1"}
+RES {"signed_message":"rdpwjyz1oz4qzftq9pkdyfe8t1yproqpen8um5g7da7iws3epjy8wbwpnqhnx9z9r6fgrz4gy9mha7ak7iocu96xsmgq8sz6es361rcw"}
+
+### 10:25:11 alice /signmessage
+REQ {"message":"pay bob 1000000"}
+RES {"signed_message":"rdpwjyz1oz4qzftq9pkdyfe8t1yproqpen8um5g7da7iws3epjy8wbwpnqhnx9z9r6fgrz4gy9mha7ak7iocu96xsmgq8sz6es361rcw"}
+
+### 10:25:21 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":50000,"future":50000,"spendable":50000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:25:21 charlie /openchannel
+REQ {"peer_pubkey_and_opt_addr":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a@rln-dave:9738","capacity_sat":100000,"push_msat":0,"asset_amount":5000,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","public":true,"with_anchors":true,"fee_base_msat":0,"fee_proportional_millionths":0}
+RES {"temporary_channel_id":"d287ae35fd8f2dfcd1f48efce554803b474fe6f2b49641818e1d871943623eb8"}
+
+### 10:25:24 dave /openchannel
+REQ {"peer_pubkey_and_opt_addr":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b@rln-charlie:9737","capacity_sat":100000,"push_msat":0,"asset_amount":3000,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","public":true,"with_anchors":true,"fee_base_msat":0,"fee_proportional_millionths":0}
+RES {"temporary_channel_id":"3124e08d5dda7a43098943331eaf056ffb9003021c42d5acc082b1459e4e6bbb"}
+
+### 10:25:38 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":5000,"asset_remote_amount":0},{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":0,"outbound_balance_msat":0,"inbound_balance_msat":98340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":0,"asset_remote_amount":3000}]}
+
+### 10:25:38 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":5000,"offchain_inbound":3000}
+
+### 10:25:48 alice /lninvoice
+REQ {"amt_msat":3000000,"expiry_sec":3600,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":350,"description":"kitty:test:2:charlie"}
+RES {"invoice":"lnbcrt30u1p4drhuvdpqdd5hgare8f6x2um58ger5cmgv9exc6t9np4qgq6gkqnac54v8vwxkn2t37xgcf0hrtf45mwgk83jjluajswxpgegpp5eggpx8j0pag8dst869qwsa0f9e0zcyep288hycyh4dpchx923wgqsp5gsehl5yselpt2948rlmkzuqakluh68l2dn90q8vmvu2mpyzmk4nq9qyysgqcqzp2xqrrsslp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qz27kzvg9wcf9ah2ztz5nc5xyp92chp47tnzzhr3vce9qadhf72m8ec383zuag57zwnfyzpqa2lstm4dhjzc3tm8g5yfgst593nm9k5vpmspy7zamf"}
+
+### 10:25:48 charlie /sendpayment
+REQ {"invoice":"lnbcrt30u1p4drhuvdpqdd5hgare8f6x2um58ger5cmgv9exc6t9np4qgq6gkqnac54v8vwxkn2t37xgcf0hrtf45mwgk83jjluajswxpgegpp5eggpx8j0pag8dst869qwsa0f9e0zcyep288hycyh4dpchx923wgqsp5gsehl5yselpt2948rlmkzuqakluh68l2dn90q8vmvu2mpyzmk4nq9qyysgqcqzp2xqrrsslp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qz27kzvg9wcf9ah2ztz5nc5xyp92chp47tnzzhr3vce9qadhf72m8ec383zuag57zwnfyzpqa2lstm4dhjzc3tm8g5yfgst593nm9k5vpmspy7zamf"}
+RES {"payment_id":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","payment_secret":"44337fd090cfc2b516a71ff761701db7f97d1fea6ccaf01d9b6715b0905bb566","status":"Pending"}
+
+### 10:25:48 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:48 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:49 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:49 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:49 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:50 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:50 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:50 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:51 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:51 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:51 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:51 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:52 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Pending","created_at":1792139148,"updated_at":1792139148,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:52 charlie /getpayment
+REQ {"payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":false,"status":"Succeeded","created_at":1792139148,"updated_at":1792139152,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":"20f49d455d998e8e75affcf5daf7b38c0792632685e10e0c3080324b21947cfb","description":"kitty:test:2:charlie","description_hash":null}}
+
+### 10:25:52 charlie /lninvoice
+REQ {"amt_msat":3000000,"expiry_sec":3600,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":100,"description":"kitty:test:3:bob"}
+RES {"invoice":"lnbcrt30u1p4drhusdq6dd5hgare8f6x2um58gen5cn0vgnp4qw739ncxfnl99sjrv3vhvj0lss2p762jrf27dq5xrk2ea0m2tku4kpp5480wnqxl9yc766c0ysz5zgmgxhu5slc53lewu2cltp82seesypvssp5fj5jh3925tm5klwhlxqs435kwzn0w5pkk8ghvys0xa3rwet82pfs9qyysgqcqzp2xqrrsslp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qzryrzjqwpm4dmz9njecdedx6flqqhh7gel258y5qwsm6eue6yuqvvped355qqqqyqqztcqqvqqqqqqqqqqqqqqfqjwret0pylcg57lhjgvlm2fmtuy80e583xsccya0tdrhm7s7q8wnscufcpfk70av22f4yawdtthlfhapywe2lyuxzfsvnutxl8rdvxnsqa6ng43"}
+
+### 10:25:53 bob /sendpayment
+REQ {"invoice":"lnbcrt30u1p4drhusdq6dd5hgare8f6x2um58gen5cn0vgnp4qw739ncxfnl99sjrv3vhvj0lss2p762jrf27dq5xrk2ea0m2tku4kpp5480wnqxl9yc766c0ysz5zgmgxhu5slc53lewu2cltp82seesypvssp5fj5jh3925tm5klwhlxqs435kwzn0w5pkk8ghvys0xa3rwet82pfs9qyysgqcqzp2xqrrsslp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qzryrzjqwpm4dmz9njecdedx6flqqhh7gel258y5qwsm6eue6yuqvvped355qqqqyqqztcqqvqqqqqqqqqqqqqqfqjwret0pylcg57lhjgvlm2fmtuy80e583xsccya0tdrhm7s7q8wnscufcpfk70av22f4yawdtthlfhapywe2lyuxzfsvnutxl8rdvxnsqa6ng43"}
+RES {"payment_id":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","payment_secret":"4ca92bc4aaa2f74b7dd7f9810ac69670a6f75036b1d176120f37623765675053","status":"Pending"}
+
+### 10:25:53 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:53 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:53 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:54 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:54 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:54 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:55 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:55 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:55 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:55 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:56 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:56 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:56 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:57 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Pending","created_at":1792139152,"updated_at":1792139152,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":null,"description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:57 bob /getpayment
+REQ {"payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":100,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"a9dee980df2931ed6b0f240541236835f9487f148ff2ee2b1f584ea867302059","inbound":false,"status":"Succeeded","created_at":1792139152,"updated_at":1792139157,"payee_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","preimage":"af739b187f996e9d09ea92da6090a65c2bd792be09bdba3be0f0ac2e0b19ff3b","description":"kitty:test:3:bob","description_hash":null}}
+
+### 10:25:57 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":4650,"asset_remote_amount":350},{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":0,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":0,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":2900}]}
+
+### 10:26:05 dave /listchannels
+REQ 
+RES {"channels":[{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":2900,"asset_remote_amount":100},{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":350,"asset_remote_amount":4650},{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":309,"asset_remote_amount":4691},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":153931627954177,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":2650,"asset_remote_amount":350},{"channel_id":"31187935764ea93e1e172f577a8e9a863dc76611ca44ee561241a310398500cc","funding_txid":"cd00853910a3411256ee44ca1166c73d869a8e7a572f171e3ea94e7635791831","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697720833,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":4900},{"channel_id":"dacba0447a800b6b59ba45491fed2fd9a26e9180c2b578524b3d314077a3ffc3","funding_txid":"c2ffa37740313d4b5278b5c280916ea2d92fed1f4945ba596b0b807a44a0cbda","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697786369,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":2691,"asset_remote_amount":309}]}
+
+### 10:26:05 dave /closechannel
+REQ {"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","peer_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","force":false}
+RES {"error":"Invalid channel ID","code":400,"name":"InvalidChannelID"}
+
+### 10:26:10 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":4650,"asset_remote_amount":350},{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":2900}]}
+
+### 10:26:10 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":4750,"offchain_inbound":3250}
+
+### 10:26:15 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":4750,"offchain_inbound":3250}
+
+### 10:26:15 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":4650,"asset_remote_amount":350},{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":2900}]}
+
+### 10:26:19 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":4750,"offchain_inbound":3250}
+
+### 10:26:19 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":4650,"asset_remote_amount":350},{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":2900}]}
+
+### 10:26:23 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":4750,"offchain_inbound":3250}
+
+### 10:26:24 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":4650,"asset_remote_amount":350},{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":2900}]}
+
+### 10:26:28 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":4750,"offchain_inbound":3250}
+
+### 10:26:28 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":4650,"asset_remote_amount":350},{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":2900}]}
+
+### 10:26:32 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":4750,"offchain_inbound":3250}
+
+### 10:26:32 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":4650,"asset_remote_amount":350},{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":2900}]}
+
+### 10:26:37 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":4750,"offchain_inbound":3250}
+
+### 10:26:37 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","funding_txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767553025,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":4650,"asset_remote_amount":350},{"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","funding_txid":"3c2b8ffed290768683293c17561194730a0e287ac99849f6255b3c4630ae688f","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":167125767487489,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":2900}]}
+
+### 10:26:46 dave /closechannel
+REQ {"channel_id":"8f68ae30463c5b25f64998c97a280e0a73941156173c2983867690d2fe8f2b3d","peer_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","force":false}
+RES {}
+
+### 10:26:46 dave /closechannel
+REQ {"channel_id":"e51909c95d93cce3d99ea85a96fab78f41a1ec115dbf0501b512aa4d4c6c3408","peer_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","force":false}
+RES {}
+
+### 10:26:52 charlie /listchannels
+REQ 
+RES {"channels":[]}
+
+### 10:26:52 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:26:57 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:26:57 charlie /listchannels
+REQ 
+RES {"channels":[]}
+
+### 10:27:01 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:27:01 charlie /listchannels
+REQ 
+RES {"channels":[]}
+
+### 10:27:06 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:27:06 charlie /listchannels
+REQ 
+RES {"channels":[]}
+
+### 10:27:10 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:27:10 charlie /listchannels
+REQ 
+RES {"channels":[]}
+
+### 10:27:14 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:27:14 charlie /listchannels
+REQ 
+RES {"channels":[]}
+
+### 10:27:19 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":45000,"future":45000,"spendable":45000,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:27:19 charlie /listchannels
+REQ 
+RES {"channels":[]}
+
+### 10:27:27 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{"3":{"updated_status":"Settled","failure":null}}}
+
+### 10:27:29 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":49750,"future":49750,"spendable":49750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:27:29 charlie /listtransfers
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"error":"Invalid request: Failed to deserialize the JSON body into the target type","code":400,"name":"InvalidRequest"}
+
+### 10:27:39 dave /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":91000,"future":94250,"spendable":91000,"offchain_outbound":5750,"offchain_inbound":10250}
+
+### 10:27:39 dave /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{"5":{"updated_status":"Settled","failure":null}}}
+
+### 10:27:39 dave /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":94250,"future":94250,"spendable":94250,"offchain_outbound":5750,"offchain_inbound":10250}
+
+### 10:27:39 charlie /listtransfers
+REQ {"asset_filter":{"type":"Id","value":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}}
+RES {"transfers":[{"idx":1,"created_at":1792051773,"updated_at":1792051780,"status":"Settled","requested_assignment":{"type":"Fungible","value":50000},"assignments":[{"type":"Fungible","value":50000}],"kind":"ReceiveBlind","txid":"56e15ae2eb9a54fed727b756293547e7428e290c21abc2116184aacc7115cc7a","recipient_id":"bcrt:utxob:MUO7Fwls-_6XWMGH-W2L_U_G-TaEaMdn-izht8Hb-0G53TBa-ivr6j","receive_utxo":"6f5bd7d5a27c530440461922465651ca006adfad6ced2f6d0a290e1d77582cd5:8","change_utxo":null,"expiration_timestamp":1792055373,"transport_endpoints":[{"endpoint":"http://proxy:3000/json-rpc","transport_type":"JsonRpc","used":true}]},{"idx":2,"created_at":1792139121,"updated_at":1792139130,"status":"Settled","requested_assignment":{"type":"Fungible","value":5000},"assignments":[{"type":"Fungible","value":45000}],"kind":"Send","txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","recipient_id":"bcrt:wvout:BB~JNrCf-I42oXDF-kHTarhe-I4_A5EO-70x2S3b-b8zCQPe-o6DQ0Hw","receive_utxo":null,"change_utxo":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5:2","expiration_timestamp":1792225521,"transport_endpoints":[]},{"idx":3,"created_at":1792139245,"updated_at":1792139247,"status":"Settled","requested_assignment":{"type":"Any"},"assignments":[{"type":"Fungible","value":4750}],"kind":"ReceiveWitness","txid":"e724150bc404f0c3470bfe725f8c74bf96ad75803960a5d3c63cf28218bb616e","recipient_id":"bcrt:wvout:BVA88ogN-c~ziNyz-pU5TSyk-q9OCpXN-8AJAdZ5-IjdQNR2-PsGBgwQ","receive_utxo":"e724150bc404f0c3470bfe725f8c74bf96ad75803960a5d3c63cf28218bb616e:1","change_utxo":null,"expiration_timestamp":1792225645,"transport_endpoints":[]}]}
+
+### 10:27:48 dave /backup
+REQ {"backup_path":"/RLNdata/spike-backup.bin","password":"<redacted>"}
+RES {"error":"Node is unlocked (hint: call lock)","code":403,"name":"UnlockedNode"}
+
+### 10:28:08 bob /lninvoice
+REQ {"amt_msat":3000000,"expiry_sec":5,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":10,"description":"kitty:test:expiry:alice"}
+RES {"invoice":"lnbcrt30u1p4drcqcdp9dd5hgare8f6x2um58fjhsurfwfun5ctvd93k2np4qw20jfnr7sfv9fpeth8zce0pnry6rvuz9eqvatecyzreymt4fhrvgpp5mds09e47jzs28wrd4lpvwd7ugm9nxzwghxsw0aptvxdz4vphn70qsp592zrj7aq7tn0as9djg4ye7ajrgq5je7y76jcm6s3aw92n3uagr2q9qyysgqcqzp2xqp9lp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qp25g04h4s93sdpl2jeqdjc4fv5n7qwxz0z8vgkw8p7udrxgyfhh6pzzy829g5sxlrxsha6hkn0dq5rnmljgr6mtukganfqpx27wp2lehcq98x432"}
+
+### 10:28:19 alice /decodelninvoice
+REQ {"invoice":"lnbcrt30u1p4drcqcdp9dd5hgare8f6x2um58fjhsurfwfun5ctvd93k2np4qw20jfnr7sfv9fpeth8zce0pnry6rvuz9eqvatecyzreymt4fhrvgpp5mds09e47jzs28wrd4lpvwd7ugm9nxzwghxsw0aptvxdz4vphn70qsp592zrj7aq7tn0as9djg4ye7ajrgq5je7y76jcm6s3aw92n3uagr2q9qyysgqcqzp2xqp9lp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qp25g04h4s93sdpl2jeqdjc4fv5n7qwxz0z8vgkw8p7udrxgyfhh6pzzy829g5sxlrxsha6hkn0dq5rnmljgr6mtukganfqpx27wp2lehcq98x432"}
+RES {"amt_msat":3000000,"expiry_sec":5,"timestamp":1792139288,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":10,"description":"kitty:test:expiry:alice","description_hash":null,"payment_hash":"db60f2e6be90a0a3b86dafc2c737dc46cb3309c8b9a0e7f42b619a2ab0379f9e","payment_secret":"2a84397ba0f2e6fec0ad922a4cfbb21a014967c4f6a58dea11eb8aa9c79d40d4","payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","network":"Regtest"}
+
+### 10:28:19 bob /invoicestatus
+REQ {"invoice":"lnbcrt30u1p4drcqcdp9dd5hgare8f6x2um58fjhsurfwfun5ctvd93k2np4qw20jfnr7sfv9fpeth8zce0pnry6rvuz9eqvatecyzreymt4fhrvgpp5mds09e47jzs28wrd4lpvwd7ugm9nxzwghxsw0aptvxdz4vphn70qsp592zrj7aq7tn0as9djg4ye7ajrgq5je7y76jcm6s3aw92n3uagr2q9qyysgqcqzp2xqp9lp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qp25g04h4s93sdpl2jeqdjc4fv5n7qwxz0z8vgkw8p7udrxgyfhh6pzzy829g5sxlrxsha6hkn0dq5rnmljgr6mtukganfqpx27wp2lehcq98x432"}
+RES {"status":"Expired"}
+
+### 10:28:19 alice /sendpayment
+REQ {"invoice":"lnbcrt30u1p4drcqcdp9dd5hgare8f6x2um58fjhsurfwfun5ctvd93k2np4qw20jfnr7sfv9fpeth8zce0pnry6rvuz9eqvatecyzreymt4fhrvgpp5mds09e47jzs28wrd4lpvwd7ugm9nxzwghxsw0aptvxdz4vphn70qsp592zrj7aq7tn0as9djg4ye7ajrgq5je7y76jcm6s3aw92n3uagr2q9qyysgqcqzp2xqp9lp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qp25g04h4s93sdpl2jeqdjc4fv5n7qwxz0z8vgkw8p7udrxgyfhh6pzzy829g5sxlrxsha6hkn0dq5rnmljgr6mtukganfqpx27wp2lehcq98x432"}
+RES {"payment_id":"db60f2e6be90a0a3b86dafc2c737dc46cb3309c8b9a0e7f42b619a2ab0379f9e","payment_hash":"db60f2e6be90a0a3b86dafc2c737dc46cb3309c8b9a0e7f42b619a2ab0379f9e","payment_secret":"2a84397ba0f2e6fec0ad922a4cfbb21a014967c4f6a58dea11eb8aa9c79d40d4","status":"Failed"}
+
+### 10:28:22 alice /listpayments
+REQ 
+RES {"payments":[{"amt_msat":3000000,"asset_amount":350,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"ca10131e4f0f5076c167d140e875e92e5e2c132151cf726097ab438b98aa8b90","inbound":true,"status":"Succeeded","created_at":1792139148,"updated_at":1792139151,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":"20f49d455d998e8e75affcf5daf7b38c0792632685e10e0c3080324b21947cfb","description":"kitty:test:2:charlie","description_hash":null},{"amt_msat":3000000,"asset_amount":309,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"3659d9ba10aa76a9e0b4546ba8265b2e1cb04eaabbba28cc55fa5b49010348f1","inbound":false,"status":"Succeeded","created_at":1792138948,"updated_at":1792138951,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":"c9c42055033752312726182c9d8ffaaba3bd68015bede17518803c63c487269b","description":"kitty:test:1:alice","description_hash":null},{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"db60f2e6be90a0a3b86dafc2c737dc46cb3309c8b9a0e7f42b619a2ab0379f9e","inbound":false,"status":"Failed","created_at":1792139299,"updated_at":1792139299,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:expiry:alice","description_hash":null}]}
+
+### 10:28:38 bob /lninvoice
+REQ {"amt_msat":1000000,"expiry_sec":600,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":10,"description":"low"}
+RES {"error":"Invalid amount: amt_msat cannot be less than 3000000 when transferring an RGB asset","code":400,"name":"InvalidAmount"}
+
+### 10:28:38 bob /lninvoice
+REQ {"amt_msat":null,"expiry_sec":600,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":10,"description":"null"}
+RES {"error":"Invalid amount: amt_msat cannot be less than 3000000 when transferring an RGB asset","code":400,"name":"InvalidAmount"}
+
+### 10:28:38 charlie /openchannel
+REQ {"peer_pubkey_and_opt_addr":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a@rln-dave:9738","capacity_sat":100000,"push_msat":0,"asset_amount":1000,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","public":false,"with_anchors":true,"fee_base_msat":0,"fee_proportional_millionths":0}
+RES {"temporary_channel_id":"acd5e9fd05136283a3a078a9f17dda252b404bb832b2a79b861fda446d68a1e4"}
+
+### 10:28:51 charlie /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f2a61a85beed4fe84fadd2f5ab882c70a6250fd43a468717ae17672e73f25d6c","funding_txid":"6d5df2732e6717ae1787463ad40f25a6702c88abf5d2ad4fe84fedbe851aa6f2","peer_pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a","peer_alias":null,"short_channel_id":186916976852993,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":99013,"outbound_balance_msat":98340000,"inbound_balance_msat":0,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":false,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":1000,"asset_remote_amount":0}]}
+
+### 10:29:05 alice /lninvoice
+REQ {"amt_msat":3000000,"expiry_sec":600,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":50,"description":"kitty:test:4:charlie"}
+RES {"invoice":"lnbcrt30u1p4drcz3dpqdd5hgare8f6x2um58g6r5cmgv9exc6t9np4qgq6gkqnac54v8vwxkn2t37xgcf0hrtf45mwgk83jjluajswxpgegpp532qgy22q64dvs5c8h3je29dw5ea9rstf5cpg7t7gqpuufdlc36pqsp5n8vpk4rqzhjllkgle05vqryktf3d969zspnzsqqjs0ksgqqyh2yq9qyysgqcqzp2xqzjclp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qzpjckvq837zuacftedlf7n2nfl8gp7m4hvtt8799skfur855uzkm2mzq7lpzznmchps3t4kxaqeulmxmdryx5qje5np4qewkf0sdv7qwtqq53fhkd"}
+
+### 10:29:06 charlie /sendpayment
+REQ {"invoice":"lnbcrt30u1p4drcz3dpqdd5hgare8f6x2um58g6r5cmgv9exc6t9np4qgq6gkqnac54v8vwxkn2t37xgcf0hrtf45mwgk83jjluajswxpgegpp532qgy22q64dvs5c8h3je29dw5ea9rstf5cpg7t7gqpuufdlc36pqsp5n8vpk4rqzhjllkgle05vqryktf3d969zspnzsqqjs0ksgqqyh2yq9qyysgqcqzp2xqzjclp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qzpjckvq837zuacftedlf7n2nfl8gp7m4hvtt8799skfur855uzkm2mzq7lpzznmchps3t4kxaqeulmxmdryx5qje5np4qewkf0sdv7qwtqq53fhkd"}
+RES {"payment_id":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","payment_secret":"99d81b546015e5ffd91fcbe8c00c965a62d2e8a2806628001283ed040004ba88","status":"Pending"}
+
+### 10:29:06 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:06 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:07 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:07 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:07 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:08 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:08 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:08 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:08 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:09 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:09 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:09 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:10 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:10 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:10 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:11 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:11 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:11 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:12 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Pending","created_at":1792139345,"updated_at":1792139345,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":null,"description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:12 charlie /getpayment
+REQ {"payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":50,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"8a80822940d55ac85307bc659515aea67a51c169a6028f2fc80079c4b7f88e82","inbound":false,"status":"Succeeded","created_at":1792139345,"updated_at":1792139352,"payee_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","preimage":"91c579ae26b74a18cd700b1177d431edc79cbc20006e881e368ab311c785c2e3","description":"kitty:test:4:charlie","description_hash":null}}
+
+### 10:29:12 dave /listchannels
+REQ 
+RES {"channels":[{"channel_id":"f2a61a85beed4fe84fadd2f5ab882c70a6250fd43a468717ae17672e73f25d6c","funding_txid":"6d5df2732e6717ae1787463ad40f25a6702c88abf5d2ad4fe84fedbe851aa6f2","peer_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","peer_alias":null,"short_channel_id":186916976852993,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":false,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":50,"asset_remote_amount":950},{"channel_id":"f504797e48c93287d20e0f077fd073cf3480f6eda4b37307d3a1f0219af2c647","funding_txid":"46c6f29a21f0a1d30773b3a4edf68034cf73d07f070f0ed28732c9487e7904f5","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":147334558187521,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":309,"asset_remote_amount":4691},{"channel_id":"5c3fcc70d7a56196d9105752d3f18c8f08fce7c9b7b0b4dad7c1c8dea2b45c1f","funding_txid":"1e5cb4a2dec8c1d7dab4b0b7c9e7fc088f8cf1d3525710d99661a5d770cc3f5c","peer_pubkey":"0201a45813ee29561d8e35a6a5c7c64612fb8d69ad36e458f194bfceca0e305194","peer_alias":null,"short_channel_id":153931627954177,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":93013,"outbound_balance_msat":92340000,"inbound_balance_msat":5000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":2600,"asset_remote_amount":400},{"channel_id":"31187935764ea93e1e172f577a8e9a863dc76611ca44ee561241a310398500cc","funding_txid":"cd00853910a3411256ee44ca1166c73d869a8e7a572f171e3ea94e7635791831","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697720833,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":3000,"outbound_balance_msat":2000000,"inbound_balance_msat":95340000,"next_outbound_htlc_limit_msat":2000000,"next_outbound_htlc_minimum_msat":3000000,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":100,"asset_remote_amount":4900},{"channel_id":"dacba0447a800b6b59ba45491fed2fd9a26e9180c2b578524b3d314077a3ffc3","funding_txid":"c2ffa37740313d4b5278b5c280916ea2d92fed1f4945ba596b0b807a44a0cbda","peer_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","peer_alias":null,"short_channel_id":160528697786369,"status":"Opened","ready":true,"capacity_sat":100000,"local_balance_sat":96013,"outbound_balance_msat":95340000,"inbound_balance_msat":2000000,"next_outbound_htlc_limit_msat":10000000,"next_outbound_htlc_minimum_msat":1,"is_usable":true,"public":true,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_local_amount":2691,"asset_remote_amount":309}]}
+
+### 10:29:12 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":950,"offchain_inbound":50}
+
+### 10:29:12 dave /closechannel
+REQ {"channel_id":"f2a61a85beed4fe84fadd2f5ab882c70a6250fd43a468717ae17672e73f25d6c","peer_pubkey":"03bd12cf064cfe52c24364597649ff84141f69521a55e682861d959ebf6a5db95b","force":false}
+RES {}
+
+### 10:29:17 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:18 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:29:21 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:21 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:29:25 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:25 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:29:28 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:28 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:29:31 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:31 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:29:35 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:35 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:29:38 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:38 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:29:52 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:52 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:29:55 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:55 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:29:58 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:29:58 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:30:02 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:30:02 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:30:05 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{}}
+
+### 10:30:05 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":48750,"future":48750,"spendable":48750,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:30:09 charlie /refreshtransfers
+REQ {"asset_id":null,"filter":[],"skip_sync":false}
+RES {"transfers":{"5":{"updated_status":"Settled","failure":null}}}
+
+### 10:30:09 charlie /assetbalance
+REQ {"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}
+RES {"settled":49700,"future":49700,"spendable":49700,"offchain_outbound":0,"offchain_inbound":0}
+
+### 10:30:24 charlie /listtransfers
+REQ {"asset_filter":{"type":"Id","value":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U"}}
+RES {"transfers":[{"idx":1,"created_at":1792051773,"updated_at":1792051780,"status":"Settled","requested_assignment":{"type":"Fungible","value":50000},"assignments":[{"type":"Fungible","value":50000}],"kind":"ReceiveBlind","txid":"56e15ae2eb9a54fed727b756293547e7428e290c21abc2116184aacc7115cc7a","recipient_id":"bcrt:utxob:MUO7Fwls-_6XWMGH-W2L_U_G-TaEaMdn-izht8Hb-0G53TBa-ivr6j","receive_utxo":"6f5bd7d5a27c530440461922465651ca006adfad6ced2f6d0a290e1d77582cd5:8","change_utxo":null,"expiration_timestamp":1792055373,"transport_endpoints":[{"endpoint":"http://proxy:3000/json-rpc","transport_type":"JsonRpc","used":true}]},{"idx":2,"created_at":1792139121,"updated_at":1792139130,"status":"Settled","requested_assignment":{"type":"Fungible","value":5000},"assignments":[{"type":"Fungible","value":45000}],"kind":"Send","txid":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5","recipient_id":"bcrt:wvout:BB~JNrCf-I42oXDF-kHTarhe-I4_A5EO-70x2S3b-b8zCQPe-o6DQ0Hw","receive_utxo":null,"change_utxo":"09346c4c4daa12b50105bf5d11eca1418fb7fa965aa89ed9e3cc935dc90919e5:2","expiration_timestamp":1792225521,"transport_endpoints":[]},{"idx":3,"created_at":1792139245,"updated_at":1792139247,"status":"Settled","requested_assignment":{"type":"Any"},"assignments":[{"type":"Fungible","value":4750}],"kind":"ReceiveWitness","txid":"e724150bc404f0c3470bfe725f8c74bf96ad75803960a5d3c63cf28218bb616e","recipient_id":"bcrt:wvout:BVA88ogN-c~ziNyz-pU5TSyk-q9OCpXN-8AJAdZ5-IjdQNR2-PsGBgwQ","receive_utxo":"e724150bc404f0c3470bfe725f8c74bf96ad75803960a5d3c63cf28218bb616e:1","change_utxo":null,"expiration_timestamp":1792225645,"transport_endpoints":[]},{"idx":4,"created_at":1792139318,"updated_at":1792139324,"status":"Settled","requested_assignment":{"type":"Fungible","value":1000},"assignments":[{"type":"Fungible","value":3750}],"kind":"Send","txid":"6d5df2732e6717ae1787463ad40f25a6702c88abf5d2ad4fe84fedbe851aa6f2","recipient_id":"bcrt:wvout:BGvGyS3y-P2Yt3_7-~1VccDc-_fjSldR-5GDJql1-4IvqlZb-R3X9~lw","receive_utxo":null,"change_utxo":"6d5df2732e6717ae1787463ad40f25a6702c88abf5d2ad4fe84fedbe851aa6f2:2","expiration_timestamp":1792225718,"transport_endpoints":[]},{"idx":5,"created_at":1792139406,"updated_at":1792139409,"status":"Settled","requested_assignment":{"type":"Any"},"assignments":[{"type":"Fungible","value":950}],"kind":"ReceiveWitness","txid":"32141b1c065633af70096f65e16c71670811e9329b56e8bb1c0003e93050f2f0","recipient_id":"bcrt:wvout:BRIqQgsI-fUi~CuU-1tsm3Kq-YLw41sc-qVvORUB-ebvwR5P-qCuPjtg","receive_utxo":"32141b1c065633af70096f65e16c71670811e9329b56e8bb1c0003e93050f2f0:1","change_utxo":null,"expiration_timestamp":1792225806,"transport_endpoints":[]}]}
+
+### 10:30:51 dave /lock
+REQ {}
+RES {}
+
+### 10:30:52 dave /backup
+REQ {"backup_path":"/RLNdata/spike-backup.bin","password":"<redacted>"}
+RES {}
+
+### 10:30:53 dave /nodeinfo
+REQ 
+RES {"error":"Node is locked (hint: call unlock)","code":403,"name":"LockedNode"}
+
+### 10:31:49 alice /listpeers
+REQ 
+RES {"peers":[{"pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a"}]}
+
+### 10:31:49 bob /listpeers
+REQ 
+RES {"peers":[{"pubkey":"0383bab7622ce59c372d3693f002f7f233f550e4a01d0deb3cce89c03181cb634a"}]}
+
+### 10:31:49 bob /lninvoice
+REQ {"amt_msat":3000000,"expiry_sec":600,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","asset_amount":10,"description":"kitty:test:5:alice"}
+RES {"invoice":"lnbcrt30u1p4drc84dqadd5hgare8f6x2um58g6n5ctvd93k2np4qw20jfnr7sfv9fpeth8zce0pnry6rvuz9eqvatecyzreymt4fhrvgpp560cxqumg2x0p0dfwykrj6d0xvz2596um3axm5u0e5snfy27nnkfqsp5qejm4xyvxsxdnkp7neylk4jz2fljatg525j427x5ul8vcnjkft0s9qyysgqcqzp2xqzjclp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qp2xwe8kvxstsehwd48cdr8u69ptl4jn9zwk9u8pq68aenvm6e0gcc9xv285s4zzcdxtdknaph7dkwcavp0tf44gj8lzlq3zn6wm42klwgp2g6r6h"}
+
+### 10:31:49 alice /sendpayment
+REQ {"invoice":"lnbcrt30u1p4drc84dqadd5hgare8f6x2um58g6n5ctvd93k2np4qw20jfnr7sfv9fpeth8zce0pnry6rvuz9eqvatecyzreymt4fhrvgpp560cxqumg2x0p0dfwykrj6d0xvz2596um3axm5u0e5snfy27nnkfqsp5qejm4xyvxsxdnkp7neylk4jz2fljatg525j427x5ul8vcnjkft0s9qyysgqcqzp2xqzjclp5mx3085r7t2szt5hqm9496mvgzf6q062r7uktq3crjz7g43f5q7zs7qp2xwe8kvxstsehwd48cdr8u69ptl4jn9zwk9u8pq68aenvm6e0gcc9xv285s4zzcdxtdknaph7dkwcavp0tf44gj8lzlq3zn6wm42klwgp2g6r6h"}
+RES {"payment_id":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","payment_secret":"0665ba988c340cd9d83e9e49fb5642527f2ead1455255578d4e7cecc4e564adf","status":"Pending"}
+
+### 10:31:49 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:50 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:50 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:50 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:51 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:51 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:51 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:52 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:52 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:52 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:52 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:53 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:53 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:53 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:54 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:54 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:54 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:55 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:55 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:55 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:55 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:56 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Pending","created_at":1792139509,"updated_at":1792139509,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":null,"description":"kitty:test:5:alice","description_hash":null}}
+
+### 10:31:56 alice /getpayment
+REQ {"payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92"}
+RES {"payment":{"amt_msat":3000000,"asset_amount":10,"asset_id":"rgb:2aLz0H5a-oCXS4Nl-qXW2IEn-QH6UP3L-LBHA5C8-isU0B4U","payment_hash":"d3f0607368519e17b52e25872d35e6609542eb9b8f4dba71f9a426922bd39d92","inbound":false,"status":"Succeeded","created_at":1792139509,"updated_at":1792139516,"payee_pubkey":"0394f92663f412c2a4395dce2c65e198c9a1b3822e40ceaf382087926d754dc6c4","preimage":"897ffe07b8686d754e44b56dd7cb8c6881762333badff65874333435ec4f3373","description":"kitty:test:5:alice","description_hash":null}}
+
